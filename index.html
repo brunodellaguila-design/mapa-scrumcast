@@ -686,6 +686,7 @@ section[id]{scroll-margin-top:150px}
  .counts div+div{border-left:1px solid var(--line)}
  .counts strong{font-size:clamp(64px,5.6vw,88px)!important;margin-bottom:4px}
 }
+.pc.one{grid-template-columns:1fr}
 </style>
 
 <header class="top"><div class="wrap">
@@ -1153,6 +1154,7 @@ const LG=[
  {k:"ro",c:"Romania",n:"SuperLiga",cat:"A",r:[1000,4500],rt:"1.000–4.500 €",rn:"por mes, del club",casa:"si",trab:"nohace",ca:"Hotel del club, con comida",who:"Santiago Werkalec",id:"wXxvVPp7J7Q",m:"23:58"},
  {k:"it",c:"Italy",n:"Serie A y B",cat:"A",r:[800,1200],rt:"800–1.200 €",rn:"por mes, del club",casa:"si",trab:"nohace",ca:"Casa, auto y pasajes",who:"Matías Masetti",id:"MVWXQ6-MBqA",m:"14:33"},
  {k:"es",c:"Spain",n:"División de Honor",cat:"A",r:[800,2000],rt:"800 a 2.000 €",rn:"por mes, del club",note:"Lo común es 800–1.000 €. Muy pocos llegan a 2.000 €, pero los hay: son los que más cobran en División de Honor. Fijate siempre si incluye casa.",casa:"av",trab:"av",ca:"Depende del club",tr:"Algunos dan trabajo en vez de sueldo",who:"Tani Bay",id:"7YdufVqaAIE",m:"21:23"},
+ {k:"es2",c:"Spain",n:"División de Honor B y Primera Nacional",cat:"B",r:[500,1200],rt:"500 a 1.200 €",rn:"por mes, con la comida",t:[800,1400],tt:"800–1.400 €",tn:"lo que suma un trabajo",note:"En segunda y tercera división te dan sueldo y comida: de 500 a 1.000 €, y hasta 1.200 en segunda. Con un trabajo se suman 800 a 1.400 €.",casa:"av",trab:"av",ca:"Algunos clubes dan casa y comida",tr:"Muchos suman un part time",who:"Juan Eusebio",id:"3BUnw4KT63nDmjbx8CmntF",m:"20:58"},
  {k:"pl",c:"Poland",n:"Liga polaca",cat:"A",r:[800,1000],rt:"800–1.000 €",rn:"por mes, en un país barato",casa:"si",trab:"?",ca:"Habitación en el club",who:"Indio Romero",id:"AN9NEJK-JZA",m:"31:26"},
  {k:"de",c:"Germany",n:"Liga alemana",cat:"B",r:[500,1700],rt:"500–1.700 €",rn:"por mes, del club",t:[1600,1600],tt:"~1.600 €",tn:"un trabajo normal",casa:"si",trab:"si",ca:"Sí, lo normal",tr:"Te lo consigue el club",who:"Elias Haase",id:"50BBCWj19e0",m:"1:05:37"},
  {k:"ie",c:"Ireland",n:"Semiprofesional",cat:"B",r:[700,800],rt:"700–800 €",rn:"por mes, del club",tt:"Sin cifra",tn:"el club te da un trabajo",casa:"si",trab:"si",ca:"Casa y pasajes del club",who:"Martín Altamirano",id:"C0VgsFPx9ZQ",m:"26:30"},
@@ -1178,6 +1180,7 @@ const PC={
   con:[["Pagan a mes vencido y a veces tarde: llegó a estar cinco meses sin cobrar.","wXxvVPp7J7Q","38:15"],["La comida es la misma para todas las disciplinas y casi no hay gimnasio.","wXxvVPp7J7Q","26:11"]]},
  it:{pro:[["Con casa, auto y vuelos, el único gasto es la comida: no hace falta otro trabajo.","OgQsYJrVEA4","18:19"],["Con 800 a 1.100 € se vive bien y hasta se puede ahorrar.","MVWXQ6-MBqA","15:07"]],
   con:[["Depende del puesto: un wing cobra menos que un apertura o un forward.","OgQsYJrVEA4","17:10"],["El sueldo te deja tranquilo, pero sin lujos.","3BUnw4KT63nDmjbx8CmntF","26:30"]]},
+ es2:{pro:[["Casa y comida del club, y un trabajo de pocas horas para ahorrar.","3BUnw4KT63nDmjbx8CmntF","20:58"]],con:[]},
  es:{pro:[["Se entrena de noche: te queda tiempo para trabajar o estudiar.","L09Lm35N9zw","11:27"],["Algunos clubes pagan los 12 meses, aunque en verano bajen al mínimo.","L09Lm35N9zw","24:51"]],
   con:[["800 € sin casa: llegás muy justo a fin de mes.","7YdufVqaAIE","21:23"],["Hay clubes que entrenan de mañana y no te dejan trabajar: vivís del sueldo pero no ahorrás.","2MBKiO3JufY","35:30"],["Cobrar no te hace profesional: faltan cuerpo médico, nutrición y contratos como los de cualquier trabajador.","6Z88GnGLrg0","26:44"],["Si mañana dejás el rugby y no tenés otra herramienta, cuesta mucho.","7YdufVqaAIE","23:39"]]},
  pl:{pro:[["País barato: con lo del club vivís bien (el sueldo promedio ronda los 500 €).","AN9NEJK-JZA","32:00"],["Residencia del club con cuarto, baño, cocina y gimnasio.","AN9NEJK-JZA","32:34"]],
@@ -1207,7 +1210,7 @@ const SEMI={pro:[["Casa, comida y a veces auto: casi no tenés gastos.","Js96eOK
 const lead=tx=>{const i=tx.indexOf(": ");return i>8&&i<75?`<b>${esc(tx.slice(0,i))}:</b> ${esc(tx.slice(i+2))}`:esc(tx)};
 const pcList=(L,cls)=>`<ul class="${cls}">${L.map(([tx,id,m])=>`<li><i class="pci" aria-hidden="true">${cls==="pro"?"✓":"✕"}</i><div><span>${lead(tx)}</span><a class="pcs" href="${yt(id,m)}" target="_blank" rel="noopener">${face(id)}${esc(who(id))} · ${minTxt(m)} ▸</a></div></li>`).join("")}</ul>`;
 const pcHead=(e,t,n,s)=>`<div class="pch"><span class="pce" aria-hidden="true">${e}</span><div><h4>${t}</h4><small>${n} ${n===1?s[0]:s[1]}</small></div></div>`;
-const pcHTML=P=>P?`<div class="pc"><div class="pcb">${pcHead("👍","Lo bueno",(P.pro||[]).length,["a favor","a favor"])}${pcList(P.pro||[],"pro")}</div><div class="pcm">${pcHead("👎","Lo malo",(P.con||[]).length,["en contra","en contra"])}${pcList(P.con||[],"con")}</div></div>`:"";
+const pcHTML=P=>{if(!P)return "";const a=(P.pro||[]).length?`<div class="pcb">${pcHead("👍","Lo bueno",P.pro.length,["a favor","a favor"])}${pcList(P.pro,"pro")}</div>`:"",z=(P.con||[]).length?`<div class="pcm">${pcHead("👎","Lo malo",P.con.length,["en contra","en contra"])}${pcList(P.con,"con")}</div>`:"";return a||z?`<div class="pc${a&&z?"":" one"}">${a}${z}</div>`:""};
 function semiBox(){const el=document.getElementById("semibox");if(el)el.innerHTML=`<h3>Semiprofesional: lo que ganás y lo que resignás</h3><p class="sbs">Lo que más se repite en las charlas de los que juegan en ligas donde el rugby no alcanza solo.</p>${pcHTML(SEMI)}`}
 const lgOpen={};
 function lgSteps(){semiBox();const el=document.getElementById("lgsteps");if(!el)return;const map={A:"rugby",B:"catB",C:"catC",D:"catD"},H={A:100,B:82,C:66,D:56};
