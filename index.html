@@ -563,6 +563,31 @@ section[id]{scroll-margin-top:150px}
   .lgrow .ic i{font-size:17px}
   .lgcat{margin-top:18px}
 }
+
+/* v27: escalera + escala logarítmica */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:end;height:250px;margin:6px 0 18px}
+.step{position:relative;height:var(--h);min-height:118px;display:flex;flex-direction:column;justify-content:flex-start;gap:4px;text-align:left;padding:14px 14px 12px;border-radius:14px 14px 4px 4px;border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--sc) 22%,var(--navy2)),var(--navy2));color:var(--cream);font:inherit;cursor:pointer;transition:transform .15s,border-color .15s;overflow:hidden}
+.step:hover{transform:translateY(-3px)}
+.step.on{border-color:var(--sc);box-shadow:0 0 0 2px color-mix(in srgb,var(--sc) 45%,transparent)}
+.step::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--sc)}
+.st-A{--sc:var(--plata)}.st-B{--sc:#B9D36A}.st-C{--sc:var(--trabajo)}.st-D{--sc:var(--turq2)}
+.step .sti{font-size:20px}
+.step b{font-family:var(--display);font-weight:400;font-size:22px;line-height:1;text-transform:uppercase}
+.step small{font-size:11.5px;color:var(--muted);line-height:1.35}
+.step .stf{font-size:15px;letter-spacing:2px;margin-top:auto}
+.step .stn{font-size:11px;font-weight:800;color:var(--sc);text-transform:uppercase;letter-spacing:.08em}
+.ticks#lgticks{position:relative;display:block;height:14px}
+.ticks#lgticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.ticks#lgticks span:first-child{transform:none}.ticks#lgticks span:last-child{transform:translateX(-100%)}
+.lane .rg.dot{border-radius:50%;min-width:12px}
+.lane .avg{position:absolute;top:-3px;bottom:-3px;width:3px;margin-left:-1px;border-radius:2px;background:var(--cream);box-shadow:0 0 0 2px var(--navy)}
+.lane em.lft{color:var(--plata)}
+.lane.empty{background:none;height:auto;min-height:12px}
+.lane.empty em{position:static;transform:none;display:inline-block;padding:1px 8px;border:1px dashed var(--line);border-radius:999px;font-size:11px}
+@media (max-width:980px){.steps{grid-template-columns:repeat(2,minmax(0,1fr));height:auto;align-items:stretch}.step{height:auto;min-height:0}}
+@media (max-width:600px){.steps{gap:8px}.step{padding:12px}.step b{font-size:18px}.step small{display:none}
+  .ticks#lgticks span:nth-child(3),.ticks#lgticks span:nth-child(5),.ticks#lgticks span:nth-child(7){display:none}
+  .lane.empty{display:none}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -617,11 +642,12 @@ section[id]{scroll-margin-top:150px}
 
 <section class="band compare" id="liga-por-liga"><div class="wrap">
   <div class="sec-head"><div><p class="eyebrow">Plata, casa y trabajo</p><h2>Liga por liga, <span class="y">según los que jugaron</span></h2></div>
-    <p class="note">En amarillo, lo que paga el rugby; en verde, lo que suma un trabajo. Los números son de cada charla, del momento en que se contaron; los de Top 14 y Pro D2 son promedios públicos. Cambia según el club, el puesto y el año: tomalo como referencia.</p></div>
+    <p class="note">En amarillo, lo que paga el rugby; en verde, lo que suma un trabajo. Tocá un escalón para ver solo esas ligas. La escala crece de a saltos (500, 1.000, 2.000, 5.000…) para que entren todas, del Top 14 a la liga polaca. Los números son de cada charla, del momento en que se contaron. Cambia según el club, el puesto y el año: tomalo como referencia.</p></div>
+  <div class="steps" id="lgsteps" aria-label="La escalera: de vivir del rugby a estudiar y jugar"></div>
   <div class="lgtools"><div class="chipsf" id="lgf"></div><div class="lgsort" role="group" aria-label="Ordenar"><span>Ordenar</span><button type="button" data-s="plata" aria-pressed="true">Por tipo y plata</button><button type="button" data-s="az" aria-pressed="false">A–Z</button></div></div>
   <div class="lgview tablebox">
     <div class="lgvh"><h3>De un vistazo</h3><div class="lgkey"><span><i class="kp"></i>🏉 Lo que paga el rugby por mes</span><span><i class="kt"></i>💼 Lo que suma un trabajo</span><span>🏠 casa · 💼 trabajo del club</span></div></div>
-    <div class="lgaxis"><span></span><div class="ticks"><span>0</span><span>1.000</span><span>2.000</span><span>3.000</span><span>4.000</span><span>5.000 €</span></div><span></span></div>
+    <div class="lgaxis"><span></span><div class="ticks" id="lgticks"></div><span></span></div>
     <div id="lgchart"></div>
   </div>
   <div class="lgsel" id="lgsel"></div><div class="lglist" id="lglist" hidden></div><div class="lgall"><button type="button" class="btn" id="lgall">Ver todas las ligas en tarjetas</button></div>
@@ -1003,8 +1029,9 @@ function postaHTML(c){const L=LP[c];if(!L)return "";return `<div class="posta"><
 // filas de la sección: plata del rugby (r) separada de la del trabajo (t)
 const SRCX="Midi Olympique, temporada 2023-24";
 const LG=[
- {k:"top14",c:"France",n:"Top 14",cat:"A",r:[21000,21000],rt:"~21.000 €",rn:"promedio bruto por mes",casa:"?",trab:"nohace",ca:"Depende del contrato",ext:1,note:"Es un promedio con las estrellas adentro: la mayoría cobra bastante menos. Igual, es la liga que más paga del mundo."},
- {k:"prod2",c:"France",n:"Pro D2",cat:"A",r:[4000,4000],rt:"~4.000 €",rn:"promedio bruto por mes",casa:"?",trab:"nohace",ca:"Depende del contrato",ext:1,note:"El Top 14 paga unas cinco veces más que el Pro D2."},
+ {k:"top14",c:"France",n:"Top 14",cat:"A",r:[5000,50000],avg:21000,rt:"5.000 a 50.000+ €",rn:"por mes, según el club y el jugador",casa:"?",trab:"nohace",ca:"Depende del contrato",who:"Cangu Mieres",id:"4aee0kDdFaO63hkVfrgnYp",m:"58:30",note:"El promedio público ronda los 21.000 € (Midi Olympique), con las estrellas adentro: la mayoría cobra bastante menos. Hay chicos del Top 14 que ganan menos que algunos de segunda."},
+ {k:"prem",c:"United Kingdom",n:"Premiership",cat:"A",r:[4700,82000],rt:"4.000 a 70.000 £",rn:"por mes (≈ 4.700 a 82.000 €)",casa:"?",trab:"nohace",ca:"Depende del contrato",who:"Cangu Mieres",id:"4aee0kDdFaO63hkVfrgnYp",m:"59:00",note:"En un mismo equipo uno puede ganar 5 mil y otro 50 mil. Pasado a euros es aproximado."},
+ {k:"prod2",c:"France",n:"Pro D2",cat:"A",r:[1300,4000],avg:4000,rt:"1.300 a 4.000 €",rn:"del mínimo al promedio, por mes",casa:"?",trab:"nohace",ca:"Depende del contrato",who:"Facu Pomponio",id:"5GATbQg8Go3ifrUOruBluo",m:"27:30",note:"El mínimo ronda los 1.300–1.500 € y un extranjero no formado en Francia arranca en 2.000 y pico. El promedio público es de unos 4.000 € (Midi Olympique)."},
  {k:"fed1",c:"France",n:"Fédérale 1",cat:"A",r:[2000,4000],rt:"2.000–4.000 €",rn:"por mes, con casa y pasaje",casa:"av",trab:"?",ca:"Departamento y auto en los mejores contratos",who:"Lautaro Caro Saisi",id:"89ug5sadz9g",m:"1:21:18",note:"Los peores contratos: 700 € sin casa."},
  {k:"espoirs",c:"France",n:"Espoirs (centro de formación)",cat:"A",r:[1000,2000],rt:"1.000–2.000 €",rn:"por mes, con todo pago",casa:"si",trab:"nohace",ca:"Comida, residencia y facultad pagas",who:"Álvaro García Albó",id:"u96GytGKCtg",m:"37:58",note:"El primer año no tenía sueldo: el club le cubría todo."},
  {k:"ro",c:"Romania",n:"SuperLiga",cat:"A",r:[1000,4500],rt:"1.000–4.500 €",rn:"por mes, del club",casa:"si",trab:"nohace",ca:"Hotel del club, con comida",who:"Santiago Werkalec",id:"wXxvVPp7J7Q",m:"23:58"},
@@ -1020,23 +1047,28 @@ const LG=[
  {k:"us",c:"United States",n:"Universitario",cat:"D",rt:"Sin sueldo",rn:"beca parcial sobre las clases",casa:"av",trab:"?",ca:"Universidad o depto. compartido",who:"Nacho Muñoz",id:"LHrubdPtaQQ",m:"30:53"}];
 const CATS={A:["🏉","Vivís del rugby","El club te paga lo suficiente para no trabajar."],B:["🏉💼","Rugby + trabajo","El club paga algo y la otra parte sale de un trabajo."],C:["💼","La plata sale del trabajo","El club te da casa y te consigue laburo; el rugby suma poco."],D:["🎓","Estudiar y jugar","Beca universitaria, sin sueldo."]};
 let lgF="todas",lgS="plata",lgPick="top14",lgAll=false;
-const LGF=[["todas","Todas",()=>true],["rugby","Vivís del rugby",x=>x.cat==="A"],["casa","Te dan casa",x=>x.casa==="si"],["trab","Te consiguen trabajo",x=>x.trab==="si"]];
-function lgChips(){document.getElementById("lgf").innerHTML=LGF.map(([k,l,fn])=>`<button type="button" data-f="${k}" aria-pressed="${k===lgF}">${l}<span>${LG.filter(fn).length}</span></button>`).join("")}
-const MAXE=5000,pct=v=>Math.min(100,v/MAXE*100);
+const LGF=[["todas","Todas",()=>true],["rugby","Vivís del rugby",x=>x.cat==="A"],["catB","Rugby + trabajo",x=>x.cat==="B"],["catC","La plata sale del trabajo",x=>x.cat==="C"],["catD","Estudiar y jugar",x=>x.cat==="D"],["casa","Te dan casa",x=>x.casa==="si"],["trab","Te consiguen trabajo",x=>x.trab==="si"]];
+function lgChips(){lgSteps();document.getElementById("lgf").innerHTML=LGF.filter(x=>!x[0].startsWith("cat")).map(([k,l,fn])=>`<button type="button" data-f="${k}" aria-pressed="${k===lgF}">${l}<span>${LG.filter(fn).length}</span></button>`).join("")}
+const LMIN=500,LMAX=100000,pct=v=>Math.max(0,Math.min(100,(Math.log(v)-Math.log(LMIN))/(Math.log(LMAX)-Math.log(LMIN))*100)),TICKS=[500,1000,2000,5000,10000,20000,50000,100000],tk=v=>v>=1000?(v/1000)+(v>=10000?" mil":".000"):String(v);
 const eur=v=>v.toLocaleString("es-AR")+" €";
 const STX={si:"Sí",av:"A veces",nohace:"No hace falta","?":"Sin dato",no:"No"};
 const stc=v=>({si:"si",nohace:"si",av:"av"}[v]||"no");
 const lgOpen={};
-function bar(rg,cls,i,lbl){if(!rg)return `<span class="lane ${cls} empty"><em>${esc(lbl||"")}</em></span>`;const[lo,hi]=rg,over=hi>MAXE;
-  return `<span class="lane ${cls}"><i class="rg" style="left:${lo===hi?0:pct(lo)}%;width:${over?100-(lo===hi?0:pct(lo)):Math.max(pct(hi)-(lo===hi?0:pct(lo)),1.5)}%;animation-delay:${i*40}ms"></i>${over?`<b class="over">▶</b>`:""}${over||pct(hi)>78?`<em class="in" style="right:calc(${over?0:100-pct(hi)}% + ${over?22:10}px)">${esc(lbl)}</em>`:`<em style="left:calc(${pct(hi)}% + 8px)">${esc(lbl)}</em>`}</span>`}
-function renderLg(){const fn=LGF.find(x=>x[0]===lgF)[2];
+function lgSteps(){const el=document.getElementById("lgsteps");if(!el)return;const map={A:"rugby",B:"catB",C:"catC",D:"catD"},H={A:100,B:74,C:52,D:34};
+  el.innerHTML=Object.keys(CATS).map(k=>{const L=LG.filter(x=>x.cat===k),f=map[k],on=lgF===f;const fl=[...new Set(L.map(x=>C[x.c][1]))].join(" ");
+  return `<button type="button" class="step st-${k}${on?" on":""}" data-f="${f}" aria-pressed="${on}" style="--h:${H[k]}%"><span class="sti">${CATS[k][0]}</span><b>${CATS[k][1]}</b><small>${CATS[k][2]}</small><span class="stf">${fl}</span><span class="stn">${L.length} ${L.length===1?"liga":"ligas"}</span></button>`}).join("")}
+document.addEventListener("click",ev=>{const b=ev.target.closest("#lgsteps .step");if(!b)return;lgF=lgF===b.dataset.f?"todas":b.dataset.f;lgChips();renderLg()});
+function bar(rg,cls,i,lbl,avg){if(!rg)return `<span class="lane ${cls} empty"><em>${cls==="ru"?"🏉":"💼"} ${esc(lbl||"")}</em></span>`;const[lo,hi]=rg,pt=lo===hi||pct(hi)-pct(lo)<2;
+  const L=pt?pct(lo)-1:pct(lo),W=pt?2:pct(hi)-pct(lo),right=pct(hi)>72;
+  return `<span class="lane ${cls}"><i class="rg${pt?" dot":""}" style="left:${L}%;width:${W}%;animation-delay:${i*40}ms"></i>${avg?`<i class="avg" style="left:${pct(avg)}%" title="Promedio público"></i>`:""}${right?`<em class="lft" style="right:calc(${100-pct(lo)}% + 8px)">${esc(lbl)}</em>`:`<em style="left:calc(${pct(hi)}% + 8px)">${esc(lbl)}</em>`}</span>`}
+function renderLg(){const tke=document.getElementById("lgticks");if(tke)tke.innerHTML=TICKS.map(v=>`<span style="left:${pct(v)}%">${tk(v)}${v===100000?" €":""}</span>`).join("");const fn=LGF.find(x=>x[0]===lgF)[2];
   const rows=LG.filter(fn).slice();
   const mid=g=>g?(g[0]+g[1])/2:-1,val=x=>Math.max(mid(x.r),mid(x.t));
   rows.sort(lgS==="az"?(a,b)=>(C[a.c][0]+a.n).localeCompare(C[b.c][0]+b.n):(a,b)=>a.cat.localeCompare(b.cat)||val(b)-val(a));
-  const grid=[1000,2000,3000,4000].map(v=>`<i class="gl" style="left:${pct(v)}%"></i>`).join("");
+  const grid=TICKS.slice(1,-1).map(v=>`<i class="gl" style="left:${pct(v)}%"></i>`).join("");
   let html="",lastCat=null;
   rows.forEach((x,i)=>{if(lgS==="plata"&&x.cat!==lastCat){lastCat=x.cat;const k=CATS[x.cat];html+=`<div class="lgcat"><span>${k[0]}</span><b>${k[1]}</b><small>${k[2]}</small></div>`}
-    html+=`<button type="button" class="lgrow" data-c="${x.c}" data-k="${x.k}"><span class="nm">${C[x.c][1]} ${esc(C[x.c][0])}<small>${esc(x.n)}</small><small class="mval"><b>🏉 ${esc(x.rt)}</b>${x.t||x.tt?` <i>💼 ${esc(x.tt)}</i>`:""}</small></span><span class="lanes">${grid}${bar(x.r,"ru",i,x.r?x.rt:x.rt)}${(x.t||x.tt)?bar(x.t,"tr",i,x.t?x.tt:x.tt):""}</span><span class="ic"><i class="${stc(x.casa)}" title="Casa: ${STX[x.casa]}">🏠</i><i class="${stc(x.trab)}" title="Trabajo: ${STX[x.trab]}">💼</i></span></button>`});
+    html+=`<button type="button" class="lgrow" data-c="${x.c}" data-k="${x.k}"><span class="nm">${C[x.c][1]} ${esc(C[x.c][0])}<small>${esc(x.n)}</small><small class="mval"><b>🏉 ${esc(x.rt)}</b>${x.t||x.tt?` <i>💼 ${esc(x.tt)}</i>`:""}</small></span><span class="lanes">${grid}${bar(x.r,"ru",i,x.rt,x.avg)}${(x.t||x.tt)?bar(x.t,"tr",i,x.t?x.tt:x.tt):""}</span><span class="ic"><i class="${stc(x.casa)}" title="Casa: ${STX[x.casa]}">🏠</i><i class="${stc(x.trab)}" title="Trabajo: ${STX[x.trab]}">💼</i></span></button>`});
   document.getElementById("lgchart").innerHTML=html||`<p class="empty">Ninguna liga cumple ese filtro todavía.</p>`;
   let cards="",lc=null;const seenC={};
   rows.forEach((x,i)=>{const e=EPI[x.id]||{},yr=e.d?e.d.slice(0,4):"",first=!x.ext&&!seenC[x.c];if(first)seenC[x.c]=1;
