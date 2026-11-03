@@ -588,6 +588,12 @@ section[id]{scroll-margin-top:150px}
 @media (max-width:600px){.steps{gap:8px}.step{padding:12px}.step b{font-size:18px}.step small{display:none}
   .ticks#lgticks span:nth-child(3),.ticks#lgticks span:nth-child(5),.ticks#lgticks span:nth-child(7){display:none}
   .lane.empty{display:none}}
+
+/* v28: fichas sin cajas vacías */
+.split.one,.tiles.one{grid-template-columns:1fr}
+.pay.ok{background:color-mix(in srgb,var(--trabajo) 8%,transparent);border-color:color-mix(in srgb,var(--trabajo) 35%,transparent)}
+.pay.ok b{color:var(--trabajo)}
+.lgsub{margin:-2px 0 0;font-size:13px;color:var(--muted)}.lgsub b{color:var(--plata);font-weight:800}
 </style>
 
 <header class="top"><div class="wrap">
@@ -1078,9 +1084,9 @@ function renderLg(){const tke=document.getElementById("lgticks");if(tke)tke.inne
     const posta=L.length?`<div class="posta2"><h4>Lo que nadie te cuenta</h4><ol>${(op?L:L.slice(0,2)).map(([tx,pid,pm])=>`<li><p>${esc(tx)}</p><a href="${yt(pid,pm)}" target="_blank" rel="noopener">${face(pid)}${esc(who(pid))} · ${minTxt(pm)} ▸</a></li>`).join("")}</ol>${L.length>2?`<button type="button" class="pmore" data-more="${x.k}">${op?"Ver menos":`Ver ${L.length-2} más`}</button>`:""}</div>`:"";
     cards+=`<article class="lgc cat${x.cat}" id="lg-${x.k}" data-c="${x.c}" style="animation-delay:${i*40}ms">
       <header><span class="fl">${C[x.c][1]}</span><div><h3>${esc(C[x.c][0])}</h3><span class="lgl">${esc(x.n)}</span></div><span class="cb">${CATS[x.cat][0]} ${CATS[x.cat][1]}</span></header>
-      <div class="split"><div class="pay ru"><small>🏉 Paga el rugby</small><b>${esc(x.rt)}</b><em>${esc(x.rn||"")}</em></div><div class="pay tr${x.t||x.tt?"":" none"}"><small>💼 Suma un trabajo</small><b>${x.t||x.tt?esc(x.tt):x.trab==="nohace"?"No hace falta":"—"}</b><em>${esc(x.tn||"")}</em></div></div>
+      ${(()=>{const hasT=x.t||x.tt,noh=x.trab==="nohace";const second=hasT?`<div class="pay tr"><small>💼 Suma un trabajo</small><b>${esc(x.tt)}</b><em>${esc(x.tn||"")}</em></div>`:noh?`<div class="pay ok"><small>💼 ¿Hace falta trabajar?</small><b>No</b><em>El rugby alcanza para vivir</em></div>`:"";if(!x.r&&hasT)return `<div class="split one">${second}</div><p class="lgsub">🏉 <b>Del club:</b> ${x.rt==="Sin dato"?"en la charla no hay una cifra; lo fuerte es el trabajo.":esc(x.rt.toLowerCase())+(x.rn?` (${esc(x.rn)})`:"")+"."}</p>`;return `<div class="split${second?"":" one"}"><div class="pay ru"><small>🏉 Paga el rugby</small><b>${esc(x.rt)}</b><em>${esc(x.rn||"")}</em></div>${second}</div>`})()}
       ${x.note?`<p class="lgnote">${esc(x.note)}</p>`:""}
-      <div class="tiles">${tile("🏠","Casa",x.casa,x.ca)}${tile("💼","Trabajo del club",x.trab,x.tr)}</div>
+      ${(()=>{const ts=[x.casa&&x.casa!=="?"?tile("🏠","Casa",x.casa,x.ca):"",x.trab&&!["?","nohace"].includes(x.trab)?tile("💼","Trabajo del club",x.trab,x.tr):""].filter(Boolean);return ts.length?`<div class="tiles${ts.length===1?" one":""}">${ts.join("")}</div>`:""})()}
       ${posta}
       ${first&&PERFIL[x.c]?`<details class="lgmore"><summary>Nivel, representante, cabeza y vida</summary>${perfilHTML(x.c,1)}</details>`:""}
       <footer>${x.ext?`<span class="who ext"><span>Dato público<small>${SRCX}</small></span></span>`:`<a class="who" href="${yt(x.id,x.m)}" target="_blank" rel="noopener">${face(x.id)}<span>${esc(x.who)}${yr?" · "+yr:""}<small>Escuchalo en la charla ▸</small></span></a>`}<button type="button" class="tomap" data-go="${x.c}">Ver en el mapa</button></footer>
