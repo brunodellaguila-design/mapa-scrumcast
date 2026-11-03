@@ -594,6 +594,25 @@ section[id]{scroll-margin-top:150px}
 .pay.ok{background:color-mix(in srgb,var(--trabajo) 8%,transparent);border-color:color-mix(in srgb,var(--trabajo) 35%,transparent)}
 .pay.ok b{color:var(--trabajo)}
 .lgsub{margin:-2px 0 0;font-size:13px;color:var(--muted)}.lgsub b{color:var(--plata);font-weight:800}
+
+/* v29: lo bueno y lo malo */
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
+.pc>div{border-radius:12px;padding:12px 14px;border:1px solid var(--line)}
+.pcb{background:color-mix(in srgb,var(--trabajo) 7%,transparent);border-color:color-mix(in srgb,var(--trabajo) 35%,transparent)!important}
+.pcm{background:color-mix(in srgb,var(--ojo) 8%,transparent);border-color:color-mix(in srgb,var(--ojo) 35%,transparent)!important}
+.pc h4{margin:0 0 8px;font:800 11px var(--body);letter-spacing:.14em;text-transform:uppercase}
+.pcb h4{color:var(--trabajo)}.pcm h4{color:var(--ojo)}
+.pc ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.pc li span{display:block;font-size:13.5px;line-height:1.4}
+.pc li a{display:inline-flex;align-items:center;gap:6px;margin-top:3px;font-size:11.5px;font-weight:800;color:var(--turq2);text-decoration:none}
+.pc li a img{width:18px;height:18px;border-radius:50%;object-fit:cover}
+.semibox{margin:4px 0 16px;border:1px solid var(--line);border-radius:16px;background:var(--navy2);padding:4px 16px 16px}
+.semibox summary{cursor:pointer;padding:12px 0;font-family:var(--display);font-size:20px;text-transform:uppercase;list-style:none}
+.semibox summary::-webkit-details-marker{display:none}
+.semibox summary::after{content:"＋";float:right;color:var(--muted)}.semibox[open] summary::after{content:"－"}
+.semibox h3{display:none}
+.semibox .sbs{margin:0 0 12px;color:var(--muted);font-size:13px}
+@media (max-width:700px){.pc{grid-template-columns:1fr}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -649,6 +668,7 @@ section[id]{scroll-margin-top:150px}
 <section class="band compare" id="liga-por-liga"><div class="wrap">
   <div class="sec-head"><div><p class="eyebrow">Plata, casa y trabajo</p><h2>Liga por liga, <span class="y">según los que jugaron</span></h2></div>
     <p class="note">En amarillo, lo que paga el rugby; en verde, lo que suma un trabajo. Tocá un escalón para ver solo esas ligas. La escala crece de a saltos (500, 1.000, 2.000, 5.000…) para que entren todas, del Top 14 a la liga polaca. Los números son de cada charla, del momento en que se contaron. Cambia según el club, el puesto y el año: tomalo como referencia.</p></div>
+  <details class="semibox" id="semiwrap" open><summary>👍👎 Ser semiprofesional: lo bueno y lo malo</summary><div id="semibox"></div></details>
   <div class="steps" id="lgsteps" aria-label="La escalera: de vivir del rugby a estudiar y jugar"></div>
   <div class="lgtools"><div class="chipsf" id="lgf"></div><div class="lgsort" role="group" aria-label="Ordenar"><span>Ordenar</span><button type="button" data-s="plata" aria-pressed="true">Por tipo y plata</button><button type="button" data-s="az" aria-pressed="false">A–Z</button></div></div>
   <div class="lgview tablebox">
@@ -1070,8 +1090,44 @@ const LMIN=500,LMAX=100000,pct=v=>Math.max(0,Math.min(100,(Math.log(v)-Math.log(
 const eur=v=>v.toLocaleString("es-AR")+" €";
 const STX={si:"Sí",av:"A veces",nohace:"No hace falta","?":"Sin dato",no:"No"};
 const stc=v=>({si:"si",nohace:"si",av:"av"}[v]||"no");
+// lo bueno y lo malo de cada liga, de las charlas: [texto, episodio, minuto]
+const PC={
+ fed1:{pro:[["Un buen contrato de Fédérale 1: 2.000 € más departamento y auto.","89ug5sadz9g","1:21:52"],["Un club chico te puede tratar como un rey: casa con parque, auto, pasajes, trabajo para la pareja y sueldo fijo.","dfq6nBhNSok","12:59"]],
+  con:[["Hay quien firma por 700 € sin departamento sin saber que su competencia cobra 2.000 con casa y auto. Preguntá antes de firmar.","89ug5sadz9g","1:23:31"],["El contrato dura lo que la temporada: del primer día de pretemporada a la final.","89ug5sadz9g","23:19"],["Para irte antes, abogado o pagar la salida: en su caso, unos 5.000 €.","89ug5sadz9g","33:54"]]},
+ ro:{pro:[["El mínimo ronda los 1.000 € y hay quien cobra 4.000 o 4.500.","wXxvVPp7J7Q","23:58"],["Vivís en el hotel del club, con cuarto propio y comida.","wXxvVPp7J7Q","25:05"]],
+  con:[["Pagan a mes vencido y a veces tarde: llegó a estar cinco meses sin cobrar.","wXxvVPp7J7Q","38:15"],["La comida es la misma para todas las disciplinas y casi no hay gimnasio.","wXxvVPp7J7Q","26:11"]]},
+ it:{pro:[["Con casa, auto y vuelos, el único gasto es la comida: no hace falta otro trabajo.","OgQsYJrVEA4","18:19"],["Con 800 a 1.100 € se vive bien y hasta se puede ahorrar.","MVWXQ6-MBqA","15:07"]],
+  con:[["Depende del puesto: un wing cobra menos que un apertura o un forward.","OgQsYJrVEA4","17:10"],["El sueldo te deja tranquilo, pero sin lujos.","3BUnw4KT63nDmjbx8CmntF","26:30"]]},
+ es:{pro:[["Se entrena de noche: te queda tiempo para trabajar o estudiar.","L09Lm35N9zw","11:27"],["Algunos clubes pagan los 12 meses, aunque en verano bajen al mínimo.","L09Lm35N9zw","24:51"]],
+  con:[["800 € sin casa: llegás muy justo a fin de mes.","7YdufVqaAIE","21:23"],["Hay clubes que entrenan de mañana y no te dejan trabajar: vivís del sueldo pero no ahorrás.","2MBKiO3JufY","35:30"],["Cobrar no te hace profesional: faltan cuerpo médico, nutrición y contratos como los de cualquier trabajador.","6Z88GnGLrg0","26:44"],["Si mañana dejás el rugby y no tenés otra herramienta, cuesta mucho.","7YdufVqaAIE","23:39"]]},
+ pl:{pro:[["País barato: con lo del club vivís bien (el sueldo promedio ronda los 500 €).","AN9NEJK-JZA","32:00"],["Residencia del club con cuarto, baño, cocina y gimnasio.","AN9NEJK-JZA","32:34"]],
+  con:[["Por el frío la liga para varios meses: pensá qué hacés en ese tiempo.","AN9NEJK-JZA","33:47"]]},
+ de:{pro:[["Lo normal es que te den dónde vivir y un trabajo.","50BBCWj19e0","1:05:05"],["Un trabajo normal paga unos 1.600 € y la casa la pone el club.","50BBCWj19e0","1:02:19"]],
+  con:[["Con tres días de aviso le dijeron que en invierno la casa la pagaba él.","50BBCWj19e0","19:21"],["Hay clubes que pagan cada tres meses y otros que no pagan.","50BBCWj19e0","1:19:24"]]},
+ ie:{pro:[["El club te ayuda a conseguir casa y trabajo.","3BUnw4KT63nDmjbx8CmntF","4:00"]],
+  con:[["El alquiler lo pagás vos y trabajás 8 horas de lunes a viernes.","3BUnw4KT63nDmjbx8CmntF","20:00"],["La vida social del club es el sábado después del partido; el resto de la semana se trabaja.","C0VgsFPx9ZQ","12:37"]]},
+ cz:{pro:[["Pasaje, casa, y almuerzo y cena en el restaurante del presidente del club.","Js96eOKkjY8","17:14"],["Casi sin gastos: le alcanzó para irse seis días a Irlanda.","Js96eOKkjY8","18:21"],["Jornadas de trabajo cortas: de 8 a 15, más o menos.","Js96eOKkjY8","29:07"]],
+  con:[["El trabajo es físico: mantenimiento de la ciudad y cortar pasto.","Js96eOKkjY8","30:52"],["Lo que paga el club es poco: la diferencia la hace el trabajo.","Js96eOKkjY8","33:09"]]},
+ be:{pro:[["Casa gratis y trabajo en empresas sponsor, con el día libre si jugás tarde.","2MBKiO3JufY","28:58"],["Trabajando 8 horas se ganan 1.500 a 2.000 € y no pagás casa.","2MBKiO3JufY","33:21"]],
+  con:[["En la pandemia el club dejó de pagar, aunque mantuvo la casa.","2MBKiO3JufY","29:31"],["Trabajar 8 horas y entrenar te deja poco tiempo para todo lo demás.","2MBKiO3JufY","34:25"]]},
+ nl:{pro:[["Media jornada, dos días por semana: 1.400 a 1.500 € por mes.","Yrl5wnFWL7I","9:44"],["Alquiler muy barato para lo que cuesta vivir ahí.","Yrl5wnFWL7I","11:30"]],
+  con:[["El club paga solo los tres primeros meses, mientras te busca trabajo.","Yrl5wnFWL7I","8:34"],["Era el primer año con fichajes y les costó encontrarles trabajo: pedían CV y nivel de inglés.","Yrl5wnFWL7I","34:35"]]},
+ se:{pro:[["Es de las pocas ligas para jugar en el verano europeo.","C0VgsFPx9ZQ","47:02"],["Pasajes, casa y una comida por día.","C0VgsFPx9ZQ","48:38"]],
+  con:[["No hay sueldo: la plata sale del trabajo.","C0VgsFPx9ZQ","48:38"],["Liga muy chica: se juegan pocos partidos y a veces se suspenden.","C0VgsFPx9ZQ","53:05"]]},
+ hr:{pro:[["Alojamiento y trabajo dentro del club, entrenando a los chicos.","C0VgsFPx9ZQ","49:45"]],
+  con:[["Sin sueldo: es un rugby a pulmón.","C0VgsFPx9ZQ","48:07"]]},
+ mlr:{pro:[["El club pone el housing y los vuelos durante la temporada.","7r3v8Mzn4UjkgytxoxfQR7","41:00"]],
+  con:[["Son seis meses: después se corta el sueldo y el departamento.","7r3v8Mzn4UjkgytxoxfQR7","43:30"],["Hubo dueños que se fueron sin pagar los sueldos.","7r3v8Mzn4UjkgytxoxfQR7","39:00"],["Los chicos de academia cobran por hora.","7r3v8Mzn4UjkgytxoxfQR7","40:30"]]}
+};
+// resumen general del semiprofesional
+const SEMI={pro:[["Casa, comida y a veces auto: casi no tenés gastos.","Js96eOKkjY8","33:43"],["El club te consigue trabajo por contactos, con horarios que te dejan entrenar.","2MBKiO3JufY","28:58"],["Con un sueldito fijo y un trabajo, ahorrás y viajás por Europa.","dfq6nBhNSok","22:16"],["Te queda tiempo para estudiar una carrera.","L09Lm35N9zw","12:01"]],
+ con:[["El contrato dura la temporada: cuando termina te dejan de pagar y tenés tres o cuatro meses para cubrir.","C0VgsFPx9ZQ","33:19"],["Te prometen una cifra y después te pagan otra, o te dicen que vivís con dos y terminás con cinco.","xOXURvcNXLo","56:19"],["Pagos atrasados o a mes vencido.","wXxvVPp7J7Q","35:30"],["Si la visa no sale, esperás meses en casa sin cobrar.","xOXURvcNXLo","50:52"],["No hay estructura de profesional: médicos, nutrición, contratos claros.","6Z88GnGLrg0","26:44"]]};
+
+const pcList=(L,cls)=>`<ul class="${cls}">${L.map(([tx,id,m])=>`<li><span>${esc(tx)}</span><a href="${yt(id,m)}" target="_blank" rel="noopener">${face(id)}${esc(who(id))} · ${minTxt(m)} ▸</a></li>`).join("")}</ul>`;
+const pcHTML=P=>P?`<div class="pc"><div class="pcb"><h4>👍 Lo bueno</h4>${pcList(P.pro||[],"pro")}</div><div class="pcm"><h4>👎 Lo malo</h4>${pcList(P.con||[],"con")}</div></div>`:"";
+function semiBox(){const el=document.getElementById("semibox");if(el)el.innerHTML=`<h3>Ser semiprofesional: lo bueno y lo malo</h3><p class="sbs">Lo que más se repite en las charlas de los que juegan en ligas donde el rugby no alcanza solo.</p>${pcHTML(SEMI)}`}
 const lgOpen={};
-function lgSteps(){const el=document.getElementById("lgsteps");if(!el)return;const map={A:"rugby",B:"catB",C:"catC",D:"catD"},H={A:100,B:74,C:52,D:34};
+function lgSteps(){semiBox();const el=document.getElementById("lgsteps");if(!el)return;const map={A:"rugby",B:"catB",C:"catC",D:"catD"},H={A:100,B:74,C:52,D:34};
   el.innerHTML=Object.keys(CATS).map(k=>{const L=LG.filter(x=>x.cat===k),f=map[k],on=lgF===f;const fl=[...new Set(L.map(x=>C[x.c][1]))].join(" ");
   return `<button type="button" class="step st-${k}${on?" on":""}" data-f="${f}" aria-pressed="${on}" style="--h:${H[k]}%"><span class="sti">${CATS[k][0]}</span><b>${CATS[k][1]}</b><small>${CATS[k][2]}</small><span class="stf">${fl}</span><span class="stn">${L.length} ${L.length===1?"liga":"ligas"}</span></button>`}).join("")}
 document.addEventListener("click",ev=>{const b=ev.target.closest("#lgsteps .step");if(!b)return;lgF=lgF===b.dataset.f?"todas":b.dataset.f;lgChips();renderLg()});
@@ -1089,7 +1145,8 @@ function renderLg(){const tke=document.getElementById("lgticks");if(tke)tke.inne
   document.getElementById("lgchart").innerHTML=html||`<p class="empty">Ninguna liga cumple ese filtro todavía.</p>`;
   let cards="",lc=null;const seenC={};
   rows.forEach((x,i)=>{const e=EPI[x.id]||{},yr=e.d?e.d.slice(0,4):"",first=!x.ext&&!seenC[x.c];if(first)seenC[x.c]=1;
-    const L=first?(LP[x.c]||[]):[],op=lgOpen[x.k];
+    const pcs=new Set([...((PC[x.k]||{}).pro||[]),...((PC[x.k]||{}).con||[])].map(p=>p[1]+p[2]));
+    const L=first?(LP[x.c]||[]).filter(p=>!pcs.has(p[1]+p[2])):[],op=lgOpen[x.k];
     if(lgS==="plata"&&x.cat!==lc){lc=x.cat;const k=CATS[x.cat];cards+=`<h3 class="lgch"><span>${k[0]}</span>${k[1]}</h3>`}
     const tile=(ic,lb,v,txt)=>`<div class="tile ${stc(v)}"><span class="ti">${ic}</span><span><small>${lb}</small><b>${STX[v]||"Sin dato"}</b>${txt&&txt!==(STX[v]||"")?`<em>${esc(txt)}</em>`:""}</span></div>`;
     const posta=L.length?`<div class="posta2"><h4>Lo que nadie te cuenta</h4><ol>${(op?L:L.slice(0,2)).map(([tx,pid,pm])=>`<li><p>${esc(tx)}</p><a href="${yt(pid,pm)}" target="_blank" rel="noopener">${face(pid)}${esc(who(pid))} · ${minTxt(pm)} ▸</a></li>`).join("")}</ol>${L.length>2?`<button type="button" class="pmore" data-more="${x.k}">${op?"Ver menos":`Ver ${L.length-2} más`}</button>`:""}</div>`:"";
@@ -1098,6 +1155,7 @@ function renderLg(){const tke=document.getElementById("lgticks");if(tke)tke.inne
       ${(()=>{const hasT=x.t||x.tt,noh=x.trab==="nohace";const second=hasT?`<div class="pay tr"><small>💼 Suma un trabajo</small><b>${esc(x.tt)}</b><em>${esc(x.tn||"")}</em></div>`:noh?`<div class="pay ok"><small>💼 ¿Hace falta trabajar?</small><b>No</b><em>El rugby alcanza para vivir</em></div>`:"";if(!x.r&&hasT)return `<div class="split one">${second}</div><p class="lgsub">🏉 <b>Del club:</b> ${x.rt==="Sin dato"?"en la charla no hay una cifra; lo fuerte es el trabajo.":esc(x.rt.toLowerCase())+(x.rn?` (${esc(x.rn)})`:"")+"."}</p>`;return `<div class="split${second?"":" one"}"><div class="pay ru"><small>🏉 Paga el rugby</small><b>${esc(x.rt)}</b><em>${esc(x.rn||"")}</em></div>${second}</div>`})()}
       ${x.note?`<p class="lgnote">${esc(x.note)}</p>`:""}
       ${(()=>{const ts=[x.casa&&x.casa!=="?"?tile("🏠","Casa",x.casa,x.ca):"",x.trab&&!["?","nohace"].includes(x.trab)?tile("💼","Trabajo del club",x.trab,x.tr):""].filter(Boolean);return ts.length?`<div class="tiles${ts.length===1?" one":""}">${ts.join("")}</div>`:""})()}
+      ${pcHTML(PC[x.k])}
       ${posta}
       ${first&&PERFIL[x.c]?`<details class="lgmore"><summary>Nivel, representante, cabeza y vida</summary>${perfilHTML(x.c,1)}</details>`:""}
       <footer>${x.ext?`<span class="who ext"><span>Dato público<small>${SRCX}</small></span></span>`:`<a class="who" href="${yt(x.id,x.m)}" target="_blank" rel="noopener">${face(x.id)}<span>${esc(x.who)}${yr?" · "+yr:""}<small>Escuchalo en la charla ▸</small></span></a>`}<button type="button" class="tomap" data-go="${x.c}">Ver en el mapa</button></footer>
