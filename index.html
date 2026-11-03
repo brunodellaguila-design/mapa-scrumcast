@@ -687,6 +687,9 @@ section[id]{scroll-margin-top:150px}
  .counts strong{font-size:clamp(64px,5.6vw,88px)!important;margin-bottom:4px}
 }
 .pc.one{grid-template-columns:1fr}
+#sptoast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,140%);z-index:99;background:#1DB954;color:#08111D;font-weight:800;font-size:15px;padding:12px 18px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.45);transition:transform .25s;width:max-content;max-width:calc(100vw - 32px);text-align:center}
+#sptoast.on{transform:translate(-50%,0)}#sptoast b{font-size:17px}
+a[href*="open.spotify.com/episode"].pcs::after,a[href*="open.spotify.com/episode"].gsrc::after{content:"🎧";margin-left:2px}
 </style>
 
 <header class="top"><div class="wrap">
@@ -893,6 +896,9 @@ const FACTS={
   {k:"plata",b:"De 1.000 a 1.700 € por mes",t:"En Frankfurt, entre 1.000 y 1.700 € por mes. Hubo contratos de 2.000 o 2.200 € más departamento.",id:"50BBCWj19e0",m:"65:49"},
   {k:"casa",b:"Te dan casa y te consiguen laburo",t:"Lo más normal en Alemania: el club te da dónde vivir y te consigue un trabajo.",id:"50BBCWj19e0",m:"65:02"},
   {k:"ojo",b:"Sin pasaporte europeo, cuesta",t:"Pagan todos los meses y en blanco, pero no suelen hacer visas a argentinos: él jugó con pasaporte alemán.",id:"50BBCWj19e0",m:"65:49"},
+  {k:"plata",b:"El mejor club: 2.000 € más casa",t:"El club más fuerte de Alemania, donde jugaba la selección, pagaba 2.000 € de contrato más casa: todos profesionales. Cuando se disolvió, Frankfurt se llevó a varios.",id:"50BBCWj19e0",m:"34:10"},
+  {k:"plata",b:"De 800 € a unos 1.600 €",t:"Su contrato de jugador y entrenador en Frankfurt era de 800 € más la casa. Hoy esos contratos están en unos 1.600 €, más la casa.",id:"50BBCWj19e0",m:"48:18"},
+  {k:"plata",b:"Berlín: 200 € para comer",t:"En su primer club, en Berlín, le pagaban 200 € para comer y la casa, y lo ayudaban con el subsidio del Estado.",id:"50BBCWj19e0",m:"19:21"},
   {k:"ojo",b:"Pedí fotos de la casa",t:"Antes de firmar, preguntá cuántos meses dura el contrato, con quién vas a vivir y pedí fotos de la casa.",id:"50BBCWj19e0",m:"80:13"}],
  "Belgium":[
   {k:"trabajo",b:"El laburo paga 1.500–2.000 €",t:"El club te consigue trabajo: entre 1.500 y 2.000 € por mes trabajando 8 horas.",id:"2MBKiO3JufY",m:"33:24"},
@@ -1129,7 +1135,7 @@ const LP={
  "United Kingdom":[["En un mismo equipo uno puede ganar 5 mil y otro 50 mil por mes.", "4aee0kDdFaO63hkVfrgnYp", "59:30"]],
  "Portugal":[["En España y Portugal los sueldos van de 600 a 1.500 € al mes, según tu currículum y si te conocen.","4Uq2SU8EJAlj3qRCsYwrh8","22:35"],["Hay pocos fichajes extranjeros: casi todos los jugadores son portugueses.","4Uq2SU8EJAlj3qRCsYwrh8","21:54"],["Llegó a mitad de temporada, cuando su club en España tuvo problemas de plata y dejó ir a varios jugadores.","4Uq2SU8EJAlj3qRCsYwrh8","9:48"]],
  "Romania":[["Pagan a mes vencido: el sueldo de septiembre llega a fin de octubre.","wXxvVPp7J7Q","35:30"],["La visa tardó 5 meses y en ese tiempo no cobró: armó una academia para tener otro ingreso.","wXxvVPp7J7Q","34:57"],["Muchos mandan parte del sueldo a su casa.","wXxvVPp7J7Q","26:11"]],
- "Germany":[["Con papeles, el Estado te da curso de alemán, seguro médico y unos 500 € por mes mientras aprendés.","50BBCWj19e0","19:53"],["500 € del club más casa más un trabajo de 1.600 € le rindió más que una oferta de Francia.","50BBCWj19e0","1:01:44"],["Una habitación gratis en la rugby house, a tres cuadras del club.","50BBCWj19e0","24:19"]],
+ "Germany":[["Con papeles, el Estado te da curso de alemán, seguro médico y unos 500 € por mes mientras aprendés.","50BBCWj19e0","19:53"],["500 € del club más casa más un trabajo de 1.600 € le rindió más que una oferta de Francia.","50BBCWj19e0","1:01:44"],["Una habitación gratis en la rugby house, a tres cuadras del club.","50BBCWj19e0","24:19"],["Los primeros meses vivió con 5 € por semana y nunca le pidió plata a su viejo.","50BBCWj19e0","36:38"]],
  "Belgium":[["La diferencia la hace el trabajo: 8 horas por día te dejan 1.500–2.000 € y no pagás casa.","2MBKiO3JufY","33:21"],["En la pandemia el club dejó de pagar, pero mantuvo la casa y el Estado cubrió el trabajo.","2MBKiO3JufY","29:31"]],
  "Netherlands":[["Trabajando media jornada, dos días por semana, cobran 1.400–1.500 € al mes.","Yrl5wnFWL7I","9:44"],["Te pagan los 3 primeros meses mientras el club te busca trabajo.","Yrl5wnFWL7I","8:34"],["Con inglés alcanza: casi todos los holandeses son bilingües.","Yrl5wnFWL7I","36:47"],["El alquiler lo pagás vos, pero muy por debajo del mercado holandés.","Yrl5wnFWL7I","10:56"]],
  "Poland":[["800–1.000 € rinden mucho: en zlotys la vida es muy barata.","AN9NEJK-JZA","31:26"],["Firmó por 3 meses y no por el año, para no quedar 4 meses encerrado en el parate de invierno.","AN9NEJK-JZA","33:47"]],
@@ -1156,7 +1162,7 @@ const LG=[
  {k:"es",c:"Spain",n:"División de Honor",cat:"A",r:[800,2000],rt:"800 a 2.000 €",rn:"por mes, del club",note:"Lo común es 800–1.000 €. Muy pocos llegan a 2.000 €, pero los hay: son los que más cobran en División de Honor. Fijate siempre si incluye casa.",casa:"av",trab:"av",ca:"Depende del club",tr:"Algunos dan trabajo en vez de sueldo",who:"Tani Bay",id:"7YdufVqaAIE",m:"21:23"},
  {k:"es2",c:"Spain",n:"División de Honor B y Primera Nacional",cat:"B",r:[500,1200],rt:"500 a 1.200 €",rn:"por mes, con la comida",t:[800,1400],tt:"800–1.400 €",tn:"lo que suma un trabajo",note:"En segunda y tercera división te dan sueldo y comida: de 500 a 1.000 €, y hasta 1.200 en segunda. Con un trabajo se suman 800 a 1.400 €.",casa:"av",trab:"av",ca:"Algunos clubes dan casa y comida",tr:"Muchos suman un part time",who:"Juan Eusebio",id:"3BUnw4KT63nDmjbx8CmntF",m:"20:10"},
  {k:"pl",c:"Poland",n:"Liga polaca",cat:"A",r:[800,1000],rt:"800–1.000 €",rn:"por mes, en un país barato",casa:"si",trab:"?",ca:"Habitación en el club",who:"Indio Romero",id:"AN9NEJK-JZA",m:"31:26"},
- {k:"de",c:"Germany",n:"Liga alemana",cat:"B",r:[500,1700],rt:"500–1.700 €",rn:"por mes, del club",t:[1600,1600],tt:"~1.600 €",tn:"un trabajo normal",casa:"si",trab:"si",ca:"Sí, lo normal",tr:"Te lo consigue el club",who:"Elias Haase",id:"50BBCWj19e0",m:"1:05:37"},
+ {k:"de",c:"Germany",n:"Liga alemana",cat:"B",r:[500,1700],rt:"500–1.700 €",rn:"por mes, del club",t:[1600,1600],tt:"~1.600 €",tn:"un trabajo normal",casa:"si",trab:"si",ca:"Sí, lo normal",tr:"Te lo consigue el club",note:"El club más fuerte llegó a pagar 2.000 € más casa. Los contratos de jugador y entrenador rondan hoy los 1.600 € más la casa.",who:"Elias Haase",id:"50BBCWj19e0",m:"1:05:37"},
  {k:"ie",c:"Ireland",n:"Semiprofesional",cat:"B",r:[700,800],rt:"700–800 €",rn:"por mes, del club",tt:"Sin cifra",tn:"el club te da un trabajo",casa:"si",trab:"si",ca:"Casa y pasajes del club",who:"Martín Altamirano",id:"C0VgsFPx9ZQ",m:"26:30"},
  {k:"cz",c:"Czech Rep.",n:"Primera división",cat:"B",rt:"Bajo",rn:"como la 2ª división española",tt:"Extra",tn:"trabajo que consigue el club",casa:"si",trab:"si",ca:"Sí, con comida",who:"Facu Maqueda",id:"Js96eOKkjY8",m:"16:42"},
  {k:"be",c:"Belgium",n:"Championship",cat:"C",rt:"Bajo",rn:"lo del club es un extra",t:[1500,2000],tt:"1.500–2.000 €",tn:"trabajando 8 horas",casa:"si",trab:"si",ca:"Sí, gratis",who:"Felipe Geraghty",id:"2MBKiO3JufY",m:"33:21"},
@@ -1508,6 +1514,12 @@ function cabRender(){const el=document.getElementById("cbbody");if(!el)return;co
  <div class="cbstories">${CB.stories.map(s=>`<article class="cbs"><p class="k">${esc(s.k)}</p><h3>${esc(s.t)}</h3><p>${esc(s.p)}</p><p class="lit">“${esc(s.lit)}”</p>${src(s.s[0],s.s[1])}</article>`).join("")}</div>
  <div class="cbcols">${CB.cols.map(c=>`<div class="cbcol"><h3>${c.t}</h3><ul>${c.it.map(i=>`<li><i class="cbd" aria-hidden="true"></i><div><b>${esc(i[0])}</b><span class="t">${esc(i[1])}</span>${src(i[2],i[3])}</div></li>`).join("")}</ul></div>`).join("")}</div>`}
 cabRender();
+
+// v39: Spotify no salta solo al minuto en el celu: avisamos cuál es
+(function(){const sp=document.createElement("div");sp.id="sptoast";sp.setAttribute("role","status");document.body.appendChild(sp);let tm;
+document.addEventListener("click",ev=>{const a=ev.target.closest('a[href*="open.spotify.com/episode"]');if(!a)return;const t=+(new URL(a.href).searchParams.get("t")||0);if(!t)return;
+const m=t>=3600?Math.floor(t/3600)+":"+String(Math.floor(t%3600/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0"):Math.floor(t/60)+":"+String(t%60).padStart(2,"0");
+sp.innerHTML=`🎧 Se abre Spotify. Andá al minuto <b>${m}</b>`;sp.classList.add("on");clearTimeout(tm);tm=setTimeout(()=>sp.classList.remove("on"),9000)},true)})();
 // v17: pestañas debajo del mapa, para que la página no sea eterna
 const TABS=["liga-por-liga","cabeza","guia","preguntas","tu-liga","charlas","suma"];
 let curTab=null;
