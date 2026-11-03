@@ -565,8 +565,8 @@ section[id]{scroll-margin-top:150px}
 }
 
 /* v27: escalera + escala logarítmica */
-.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:end;height:250px;margin:6px 0 18px}
-.step{position:relative;height:var(--h);min-height:118px;display:flex;flex-direction:column;justify-content:flex-start;gap:4px;text-align:left;padding:14px 14px 12px;border-radius:14px 14px 4px 4px;border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--sc) 22%,var(--navy2)),var(--navy2));color:var(--cream);font:inherit;cursor:pointer;transition:transform .15s,border-color .15s;overflow:hidden}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:end;height:300px;margin:6px 0 18px}
+.step{position:relative;height:var(--h);min-height:168px;display:flex;flex-direction:column;justify-content:flex-start;gap:4px;text-align:left;padding:14px 14px 12px;border-radius:14px 14px 4px 4px;border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--sc) 22%,var(--navy2)),var(--navy2));color:var(--cream);font:inherit;cursor:pointer;transition:transform .15s,border-color .15s;overflow:hidden}
 .step:hover{transform:translateY(-3px)}
 .step.on{border-color:var(--sc);box-shadow:0 0 0 2px color-mix(in srgb,var(--sc) 45%,transparent)}
 .step::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--sc)}
@@ -1210,7 +1210,7 @@ const pcHead=(e,t,n,s)=>`<div class="pch"><span class="pce" aria-hidden="true">$
 const pcHTML=P=>P?`<div class="pc"><div class="pcb">${pcHead("👍","Lo bueno",(P.pro||[]).length,["a favor","a favor"])}${pcList(P.pro||[],"pro")}</div><div class="pcm">${pcHead("👎","Lo malo",(P.con||[]).length,["en contra","en contra"])}${pcList(P.con||[],"con")}</div></div>`:"";
 function semiBox(){const el=document.getElementById("semibox");if(el)el.innerHTML=`<h3>Semiprofesional: lo que ganás y lo que resignás</h3><p class="sbs">Lo que más se repite en las charlas de los que juegan en ligas donde el rugby no alcanza solo.</p>${pcHTML(SEMI)}`}
 const lgOpen={};
-function lgSteps(){semiBox();const el=document.getElementById("lgsteps");if(!el)return;const map={A:"rugby",B:"catB",C:"catC",D:"catD"},H={A:100,B:74,C:52,D:34};
+function lgSteps(){semiBox();const el=document.getElementById("lgsteps");if(!el)return;const map={A:"rugby",B:"catB",C:"catC",D:"catD"},H={A:100,B:82,C:66,D:56};
   el.innerHTML=Object.keys(CATS).map(k=>{const L=LG.filter(x=>x.cat===k),f=map[k],on=lgF===f;const fl=[...new Set(L.map(x=>C[x.c][1]))].join(" ");
   return `<button type="button" class="step st-${k}${on?" on":""}" data-f="${f}" aria-pressed="${on}" style="--h:${H[k]}%"><span class="sti">${CATS[k][0]}</span><b>${CATS[k][1]}</b><small>${CATS[k][2]}</small><span class="stf">${fl}</span><span class="stn">${L.length} ${L.length===1?"liga":"ligas"}</span></button>`}).join("")}
 document.addEventListener("click",ev=>{const b=ev.target.closest("#lgsteps .step");if(!b)return;lgF=lgF===b.dataset.f?"todas":b.dataset.f;lgChips();renderLg()});
