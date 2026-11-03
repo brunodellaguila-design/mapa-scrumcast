@@ -780,7 +780,12 @@ const FACTS={
   {k:"plata",b:"800–1.100 €",t:"En la Serie A2, los salarios rondan los 800 a 1.100 €, según el puesto.",id:"MVWXQ6-MBqA",m:"14:34"},
   {k:"plata",b:"1.200 €",t:"En la Serie B tuvo un contrato de 1.200 € por mes más casa, auto y pasajes.",id:"C0VgsFPx9ZQ",m:"19:04"},
   {k:"casa",b:"Casa, auto y vuelos",t:"Sueldo fijo más auto, casa y vuelos. Compartía departamento con otro jugador.",id:"OgQsYJrVEA4",m:"17:43"}],
+ "Portugal":[
+  {k:"plata",b:"600–1.500 €",t:"En España y Portugal los sueldos van de 600 a 1.500 € al mes. Depende del currículum, de la posición y de si te conocen.",id:"4Uq2SU8EJAlj3qRCsYwrh8",m:"22:35"},
+  {k:"ojo",b:"Pocos extranjeros",t:"En Portugal hay pocos fichajes de afuera: casi todos los jugadores son portugueses, así que hay menos lugares.",id:"4Uq2SU8EJAlj3qRCsYwrh8",m:"21:54"},
+  {k:"nivel",b:"Parecido a España",t:"El nivel es parecido al español, pero el juego es otro: más dinámico, con tres cuartos muy buenos, como juega la selección portuguesa.",id:"4Uq2SU8EJAlj3qRCsYwrh8",m:"20:16"}],
  "Spain":[
+  {k:"plata",b:"500 € + casa",t:"El primer año cobraba 500 € con casa y almuerzo. No alcanzaba para mucho: sumaba de camarero cuando salía algo.",id:"4Uq2SU8EJAlj3qRCsYwrh8",m:"23:47"},
   {k:"plata",b:"Desde ~1.000 €",t:"Los contratos arrancan en unos 1.000 €, y algunos clubes pagan menos. Con 800 € y sin casa, se vive muy justo.",id:"7YdufVqaAIE",m:"21:19"},
   {k:"casa",b:"Depende del club",t:"Algunos clubes dan casa y coche, otros no.",id:"7YdufVqaAIE",m:"21:19"},
   {k:"trabajo",b:"Trabajo o sueldo",t:"Hay clubes que te dan un trabajo en vez de sueldo, y otros que te dan mitad sueldo y mitad trabajo.",id:"L09Lm35N9zw",m:"12:10"},
@@ -826,13 +831,13 @@ const CV={plata:"var(--plata)",casa:"var(--casa)",trabajo:"var(--trabajo)",nivel
 const MES=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
 const fmt=d=>{const [y,m]=d.split("-");return MES[+m-1]+" "+y};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const secs=m=>{const [a,b]=m.split(":").map(Number);return a*60+b};
+const secs=m=>m.split(":").map(Number).reduce((s,x)=>s*60+x,0);
 const minTxt=m=>{const s=secs(m);return s>=3600?Math.floor(s/3600)+":"+String(Math.floor(s%3600/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"):m};
-const yt=(id,m)=>`https://youtu.be/${id}`+(m?`?t=${secs(m)}`:"");
+const yt=(id,m)=>(id&&id.length===22?`https://open.spotify.com/episode/${id}`:`https://youtu.be/${id}`)+(m?`?t=${secs(m)}`:"");
 const spl=e=>e.s?`https://open.spotify.com/episode/${e.s}`:SP;
 const main=e=>e.id?yt(e.id):spl(e);
 const thumb=e=>{const u=TH[e.id||e.s];return u?`<img class="thumb" src="${u}" alt="">`:`<span class="thumb"></span>`};
-const EPI=Object.fromEntries(EP.filter(e=>e.id).map(e=>[e.id,e]));
+const EPI=Object.fromEntries(EP.filter(e=>e.id||e.s).map(e=>[e.id||e.s,e]));
 const who=id=>(EPI[id]||{}).n||"";
 const face=id=>TH[id]?`<img src="${TH[id]}" alt="">`:"";
 const byC={},alsoC={};
@@ -882,6 +887,9 @@ function show(c,keep){
 // perfil por país: las preguntas de siempre (nivel vs Argentina, representante, cabeza, vida)
 const PQ={nivel:"El nivel, comparado con Argentina",agente:"Representante",cabeza:"La cabeza",vida:"La vida y la gente"};
 const PERFIL={
+ "Portugal":{nivel:[["España y Portugal tienen un nivel parecido pero juegos distintos: el portugués es dinámico, con tres cuartos muy buenos.","4Uq2SU8EJAlj3qRCsYwrh8","20:16"],["La URBA Top 12 tiene muy buen nivel: ahí cualquiera le gana a cualquiera. En España compiten los 6 de arriba.","4Uq2SU8EJAlj3qRCsYwrh8","18:47"]],
+  cabeza:[["Cuando más le costó adaptarse, hizo charlas con un psicólogo para afrontar el desarraigo.","4Uq2SU8EJAlj3qRCsYwrh8","15:05"]],
+  vida:[["El club lo recibió bárbaro y Lisboa es una ciudad muy linda: vino por cinco meses y se quedó.","4Uq2SU8EJAlj3qRCsYwrh8","11:09"]]},
  "France":{nivel:[["El Pro D2 es lo más alto que jugó. La diferencia con el Top 12 es física, no de destrezas.","bcDxTJfyJJs","51:39"],["El scrum es otra cosa, mucho más duro. Rugby más rústico y más lento que en España.","dfq6nBhNSok","6:28"]],
   agente:[["Un agente le escribió en diciembre: «Vannes está para firmar». Y se fue.","FYP1rmhJO_4","17:58"],["Sin agente: mails a clubes con su CV y videos, hasta que lo llamaron.","u96GytGKCtg","4:28"]],
   cabeza:[["Ningún club le dio asistencia. En uno no confiaba en la psicóloga porque se decía que le contaba todo al entrenador.","jM1-YuCii5g","1:17:49"],["En Chartres hay psicólogo deportivo; en Dijon no había. Él usa el suyo.","89ug5sadz9g","1:30:44"]],
@@ -959,6 +967,7 @@ const LX={
  "Sweden":{casa:"?",trab:"si",tlo:2000,thi:2200,tw:"trabajando, sin salario mínimo"},
  "United States":{lo:0,hi:0,beca:1,casa:"av",trab:"?"}};
 const LP={
+ "Portugal":[["En España y Portugal los sueldos van de 600 a 1.500 € al mes, según tu currículum y si te conocen.","4Uq2SU8EJAlj3qRCsYwrh8","22:35"],["Hay pocos fichajes extranjeros: casi todos los jugadores son portugueses.","4Uq2SU8EJAlj3qRCsYwrh8","21:54"],["Llegó a mitad de temporada, cuando su club en España tuvo problemas de plata y dejó ir a varios jugadores.","4Uq2SU8EJAlj3qRCsYwrh8","9:48"]],
  "Romania":[["Pagan a mes vencido: el sueldo de septiembre llega a fin de octubre.","wXxvVPp7J7Q","35:30"],["La visa tardó 5 meses y en ese tiempo no cobró: armó una academia para tener otro ingreso.","wXxvVPp7J7Q","34:57"],["Muchos mandan parte del sueldo a su casa.","wXxvVPp7J7Q","26:11"]],
  "Germany":[["Con papeles, el Estado te da curso de alemán, seguro médico y unos 500 € por mes mientras aprendés.","50BBCWj19e0","19:53"],["500 € del club más casa más un trabajo de 1.600 € le rindió más que una oferta de Francia.","50BBCWj19e0","1:01:44"],["Una habitación gratis en la rugby house, a tres cuadras del club.","50BBCWj19e0","24:19"]],
  "Belgium":[["La diferencia la hace el trabajo: 8 horas por día te dejan 1.500–2.000 € y no pagás casa.","2MBKiO3JufY","33:21"],["En la pandemia el club dejó de pagar, pero mantuvo la casa y el Estado cubrió el trabajo.","2MBKiO3JufY","29:31"]],
@@ -966,8 +975,8 @@ const LP={
  "Poland":[["800–1.000 € rinden mucho: en zlotys la vida es muy barata.","AN9NEJK-JZA","31:26"],["Firmó por 3 meses y no por el año, para no quedar 4 meses encerrado en el parate de invierno.","AN9NEJK-JZA","33:47"]],
  "Czech Rep.":[["Almuerzo y cena en el restaurante del presidente del club.","Js96eOKkjY8","17:14"],["El parate de invierno dura 5 o 6 meses y el club no paga el pasaje para volver.","Js96eOKkjY8","18:56"],["El trabajo extra lo pidió él: el club se lo consiguió.","Js96eOKkjY8","17:47"]],
  "Italy":[["Con casa, auto y vuelos, el único gasto que te queda es la comida.","OgQsYJrVEA4","18:19"],["Serie B: 1.200 € más casa, auto y pasajes ya era un buen contrato.","C0VgsFPx9ZQ","18:40"],["Pedí en el contrato los vuelos para que te visite tu familia.","ogC3iXg8ENc","27:30"]],
- "Spain":[["800 € sin casa: llegás muy justo a fin de mes.","7YdufVqaAIE","21:23"],["Con el cambio de reglas para extranjeros, muchos argentinos sin los papeles en regla se quedaron sin equipo o tuvieron que bajar de división.","L09Lm35N9zw","5:36"],["Se entrena cuatro noches por semana y gimnasio a la mañana: te queda tiempo para un trabajo.","L09Lm35N9zw","11:27"],["Al llegar solo a la otra punta del mundo, se replanteó volverse y dejar de jugar. Los primeros meses son los más duros.","L09Lm35N9zw","19:38"],["Algunos clubes dan becas en universidades: jugás y estudiás una carrera para el después.","L09Lm35N9zw","23:39"],["Hay clubes que pagan 12 meses pero en verano bajan el sueldo al mínimo.","L09Lm35N9zw","24:51"],["Algunos te dan trabajo en vez de sueldo, o mitad y mitad.","L09Lm35N9zw","12:35"],["Falta estructura: médico, nutrición, asesoría legal. Cobrar no te hace profesional.","6Z88GnGLrg0","25:37"]],
- "France":[["Sin pasaporte europeo sos licencia C: hasta Nationale 1 entra uno solo por partido.","dfq6nBhNSok","11:19"],["Fédérale 1 maneja de 2.000 a 4.000 € con casa y pasaje; él nunca pasó de 2.300.","89ug5sadz9g","1:21:18"],["Antes de firmar por 700 €, preguntá cuánto cobra tu competencia en el puesto.","89ug5sadz9g","1:23:31"],["Su club quebró con 2 millones de deuda y se quedó sin contrato y sin departamento.","89ug5sadz9g","59:01"]],
+ "Spain":[["800 € sin casa: llegás muy justo a fin de mes.","7YdufVqaAIE","21:23"],["Con el cambio de reglas para extranjeros, muchos argentinos sin los papeles en regla se quedaron sin equipo o tuvieron que bajar de división.","L09Lm35N9zw","5:36"],["Se entrena cuatro noches por semana y gimnasio a la mañana: te queda tiempo para un trabajo.","L09Lm35N9zw","11:27"],["El primer año cobraba 500 € con casa y almuerzo, y sumaba de camarero.","4Uq2SU8EJAlj3qRCsYwrh8","23:47"],["Si jugaste tres partidos en un club, esa temporada no podés pasarte a otro de igual o menor nivel en España.","4Uq2SU8EJAlj3qRCsYwrh8","10:52"],["Al llegar solo a la otra punta del mundo, se replanteó volverse y dejar de jugar. Los primeros meses son los más duros.","L09Lm35N9zw","19:38"],["Algunos clubes dan becas en universidades: jugás y estudiás una carrera para el después.","L09Lm35N9zw","23:39"],["Hay clubes que pagan 12 meses pero en verano bajan el sueldo al mínimo.","L09Lm35N9zw","24:51"],["Algunos te dan trabajo en vez de sueldo, o mitad y mitad.","L09Lm35N9zw","12:35"],["Falta estructura: médico, nutrición, asesoría legal. Cobrar no te hace profesional.","6Z88GnGLrg0","25:37"]],
+ "France":[["En Nationale el plantel era de 45 a 50 jugadores, todos profesionales, y estadios llenos.","4Uq2SU8EJAlj3qRCsYwrh8","6:43"],["Los pilares rotan por bloques de tres partidos: podés pasar dos o tres semanas sin jugar, y eso pesa en la cabeza.","4Uq2SU8EJAlj3qRCsYwrh8","12:39"],["Llegó sin francés y casi nadie hablaba inglés: el primer invierno, solo, fue duro.","4Uq2SU8EJAlj3qRCsYwrh8","7:32"],["Sin pasaporte europeo sos licencia C: hasta Nationale 1 entra uno solo por partido.","dfq6nBhNSok","11:19"],["Fédérale 1 maneja de 2.000 a 4.000 € con casa y pasaje; él nunca pasó de 2.300.","89ug5sadz9g","1:21:18"],["Antes de firmar por 700 €, preguntá cuánto cobra tu competencia en el puesto.","89ug5sadz9g","1:23:31"],["Su club quebró con 2 millones de deuda y se quedó sin contrato y sin departamento.","89ug5sadz9g","59:01"]],
  "Ireland":[["Semiprofesional: el club paga pasajes y casa y te da un trabajo.","C0VgsFPx9ZQ","12:37"],["La vida social es el sábado después del partido: el resto de la semana todos trabajan.","C0VgsFPx9ZQ","12:37"]],
  "Sweden":[["No hay salario mínimo, pero los trabajos rondan los 2.000 € y el trabajo calificado se paga muy bien.","C0VgsFPx9ZQ","51:25"]],
  "United States":[["No pagás por jugar: pagás clases, cuarto y comida. La beca es sobre las clases.","LHrubdPtaQQ","30:53"],["Una beca del 100% es casi imposible: depende del presupuesto, no de tu nivel.","LHrubdPtaQQ","35:21"],["Tenés 3 o 4 meses de vacaciones por año para volver a casa.","LHrubdPtaQQ","47:36"]]};
@@ -1093,12 +1102,15 @@ const BEFORE=[
   ["d1","El pasaporte europeo te abre la puerta","En Francia, hasta Nationale 1, entra un solo no europeo por partido. Con 5 años en Francia pasás a contar como francés.","dfq6nBhNSok","11:19"],
   ["d2","Sin papeles no podés trabajar legal","En Francia el club tuvo que tramitarle un permiso especial con la gendarmería.","AN9NEJK-JZA","20:00"],
   ["d3","Estate encima de la visa","Revisá cada papel y la escala: en Frankfurt los demoraron hasta tener todo claro.","Js96eOKkjY8","41:22"],
+  ["d6","Tres partidos y no te podés cambiar","En España, si ya jugaste tres partidos en un club, esa temporada no podés irte a otro de igual o menor nivel. Si el club se cae, te queda buscar afuera.","4Uq2SU8EJAlj3qRCsYwrh8","10:52"],
   ["d5","Las reglas pueden cambiar en plena carrera","En España cambiaron las reglas para extranjeros y muchos argentinos sin los papeles en regla se quedaron sin equipo.","L09Lm35N9zw","5:36"],
   ["d4","Sin ciudadanía, volvés cada año","Tiene que volver a renovar la visa y ni siquiera puede alquilar en Argentina por dos meses.","xOXURvcNXLo","45:54"]]},
  {g:"Conseguir club",items:[
   ["k1","Armá tu CV y tus highlights","Un mes haciendo un CV en francés, inglés y español, con clips que muestren quién sos en la cancha.","u96GytGKCtg","17:21"],
   ["k2","Si no hay agente, escribí vos","Videos, currículum y no tener miedo de escribirle a los entrenadores. Si te quedás quieto, no pasa nada.","dGBH5iXe-0M","43:20"],
   ["k3","Sin representante, el mercado es tuyo","A fin de temporada tenés que buscar clubes como si fueras tu propio representante.","7YdufVqaAIE","19:42"],
+  ["k5","Averiguá qué es un sueldo normal","Hay clubes que traen argentinos por casi nada porque saben cómo está el país. Él no sabía qué era un sueldo normal hasta que llegó.","4Uq2SU8EJAlj3qRCsYwrh8","24:52"],
+  ["k6","Si sos joven, pensá en Francia","Si querés apostar todo al rugby, Francia es el mejor lugar. Entrar joven a la academia de un club francés te hace contar como formado ahí y te abre puertas.","4Uq2SU8EJAlj3qRCsYwrh8","28:58"],
   ["k4","No te vayas en tres días","Le ofrecieron un viernes, firmó el sábado y viajó el martes sin despedirse. No lo recomienda.","jfTdZSzbHJA","23:32"]]}
 ];
 const AFTER=[
