@@ -635,6 +635,57 @@ section[id]{scroll-margin-top:150px}
 .semibox h3{display:none}
 .semibox .sbs{margin:0 0 12px;color:var(--muted);font-size:13px}
 @media (max-width:700px){.pc{grid-template-columns:1fr}}
+
+/* v36: placas de lo bueno y lo malo */
+.pc{gap:12px;margin-top:6px}
+.pc>div{position:relative;overflow:hidden;border-radius:16px;padding:16px 16px 14px;border-width:1px}
+.pc>div::before{content:"";position:absolute;inset:0 0 auto 0;height:4px}
+.pcb{background:linear-gradient(180deg,color-mix(in srgb,var(--trabajo) 13%,transparent),color-mix(in srgb,var(--trabajo) 4%,transparent) 70%)!important}
+.pcm{background:linear-gradient(180deg,color-mix(in srgb,var(--ojo) 14%,transparent),color-mix(in srgb,var(--ojo) 4%,transparent) 70%)!important}
+.pcb::before{background:var(--trabajo)}.pcm::before{background:var(--ojo)}
+.pch{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.pce{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;font-size:19px;flex:none}
+.pcb .pce{background:color-mix(in srgb,var(--trabajo) 22%,transparent)}.pcm .pce{background:color-mix(in srgb,var(--ojo) 22%,transparent)}
+.pc h4{margin:0;font:400 22px/1 var(--display);letter-spacing:.02em}
+.pch small{display:block;margin-top:3px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pc ul{gap:0}
+.pc li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;padding:10px 0;border-top:1px solid color-mix(in srgb,var(--cream) 9%,transparent)}
+.pc li:first-child{border-top:0;padding-top:2px}
+.pci{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font:900 12px/1 var(--body);font-style:normal;margin-top:1px}
+.pro .pci{background:var(--trabajo);color:var(--navy)}.con .pci{background:var(--ojo);color:var(--navy)}
+.pc li span{font-size:14px;line-height:1.45;color:var(--cream)}
+.pc li span b,.posta2 li p b{font-weight:800}
+.pro li span b{color:var(--trabajo)}.con li span b{color:var(--ojo)}
+.pcs{display:inline-flex!important;align-items:center;gap:6px;margin-top:7px!important;padding:3px 10px 3px 3px;border-radius:999px;background:color-mix(in srgb,var(--deep) 55%,transparent);border:1px solid var(--line);font-size:11.5px!important;font-weight:800;color:var(--turq2)!important;text-decoration:none;transition:border-color .15s,background .15s}
+.pcs:hover{border-color:var(--turq2);background:color-mix(in srgb,var(--turq) 18%,transparent)}
+.pcs img{width:20px!important;height:20px!important;border-radius:50%;object-fit:cover}
+.semibox{background:linear-gradient(180deg,color-mix(in srgb,var(--yellow) 6%,var(--navy2)),var(--navy2) 120px)}
+.semibox summary{font-size:24px}
+/* lo que nadie te cuenta, como placa */
+.posta2{margin-top:12px;border-radius:16px;padding:16px;background:linear-gradient(180deg,color-mix(in srgb,var(--nivel) 12%,transparent),color-mix(in srgb,var(--nivel) 3%,transparent) 75%);border:1px solid color-mix(in srgb,var(--nivel) 35%,transparent)}
+.posta2 h4{font:400 22px/1 var(--display)!important;letter-spacing:.02em!important;text-transform:uppercase;color:var(--nivel)!important;margin:0 0 10px!important}
+.posta2 li p{color:var(--cream)}.posta2 li p b{color:var(--nivel)}
+.posta2 li::marker,.posta2 li::before{color:var(--nivel)!important}
+/* la cabeza: viñetas */
+.cbcol li{display:grid;grid-template-columns:10px minmax(0,1fr);gap:10px}
+.cbd{width:10px;height:10px;border-radius:50%;background:var(--nivel);margin-top:6px;box-shadow:0 0 0 4px color-mix(in srgb,var(--nivel) 18%,transparent)}
+.cbcol .gsrc,.cbs .gsrc,.cbq .gsrc,.cbhelp .gsrc{padding:3px 10px 3px 3px;border-radius:999px;background:color-mix(in srgb,var(--deep) 55%,transparent);border:1px solid var(--line)}
+.cbcol .gsrc:hover,.cbs .gsrc:hover{border-color:var(--turq2)}
+.cbs{background:linear-gradient(180deg,color-mix(in srgb,var(--nivel) 10%,var(--navy2)),var(--navy2) 140px)}
+.cbs .lit{font:400 22px/1.1 var(--display);font-style:normal;text-transform:uppercase;color:var(--nivel);border-left:0;padding:0;margin:4px 0 12px}
+@media (max-width:600px){.pc h4,.posta2 h4{font-size:20px!important}.pc>div{padding:14px 13px 12px}}
+
+/* v36: inicio en escritorio, escudo y números grandes */
+@media (min-width:1000px){
+ .hero .grid{grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);align-items:center;gap:24px 48px}
+ .hero .side{position:relative;gap:18px;justify-content:center}
+ .hero .side::before{content:"";position:absolute;left:50%;top:44%;width:min(460px,100%);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--turq) 30%,transparent) 0%,transparent 68%);z-index:-1}
+ .hero-logo{width:min(400px,100%);height:auto;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 24px 50px rgba(0,0,0,.55))}
+ .counts{gap:0;width:100%;max-width:460px;justify-content:space-between;border-top:1px solid var(--line);padding-top:16px}
+ .counts div{flex:1;font-size:12px;letter-spacing:.16em}
+ .counts div+div{border-left:1px solid var(--line)}
+ .counts strong{font-size:clamp(64px,5.6vw,88px)!important;margin-bottom:4px}
+}
 </style>
 
 <header class="top"><div class="wrap">
@@ -651,7 +702,7 @@ section[id]{scroll-margin-top:150px}
       <div class="ctas"><a class="btn main" href="#mapa">Explorar el mapa</a><a class="btn" href="#guia">Antes de irte</a></div>
       <div class="how"><div><b>1</b><span><strong>Elegí un país</strong>En el mapa, la tira de fotos o la tabla.</span></div><div><b>2</b><span><strong>Mirá lo que contaron</strong>Plata, casa, trabajo y lo que hay que saber.</span></div><div><b>3</b><span><strong>Escuchalo de su boca</strong>Cada dato abre la charla en el minuto justo.</span></div></div>
     </div>
-    <div class="side"><img class="hero-logo" src="img/logo.png" alt=""><div class="counts"><div><strong id="nEp">0</strong>charlas</div><div><strong id="nPa">0</strong>países</div><div><strong id="nLg">0</strong>ligas</div></div></div>
+    <div class="side"><img class="hero-logo" src="img/logo_hero.webp" alt="Escudo de ScrumCast" width="400" height="400"><div class="counts"><div><strong id="nEp">0</strong>charlas</div><div><strong id="nPa">0</strong>países</div><div><strong id="nLg">0</strong>ligas</div></div></div>
   </div>
   <div class="mosaic" aria-label="Los invitados"><div class="wrap"><p class="lbl">Los que ya lo vivieron · tocá uno para ver su país</p></div><div class="strip" id="strip"></div></div>
 </section>
@@ -1152,8 +1203,11 @@ const PC={
 const SEMI={pro:[["Casa, comida y a veces auto: casi no tenés gastos.","Js96eOKkjY8","33:43"],["El club te consigue trabajo por contactos, con horarios que te dejan entrenar.","2MBKiO3JufY","28:58"],["Con un sueldito fijo y un trabajo, ahorrás y viajás por Europa.","dfq6nBhNSok","22:16"],["Te queda tiempo para estudiar una carrera.","L09Lm35N9zw","12:01"]],
  con:[["El contrato dura la temporada: cuando termina te dejan de pagar y tenés tres o cuatro meses para cubrir.","C0VgsFPx9ZQ","33:19"],["Te prometen una cifra y después te pagan otra, o te dicen que vivís con dos y terminás con cinco.","xOXURvcNXLo","56:19"],["Pagos atrasados o a mes vencido.","wXxvVPp7J7Q","35:30"],["Si la visa no sale, esperás meses en casa sin cobrar.","xOXURvcNXLo","50:52"],["No hay estructura de profesional: médicos, nutrición, contratos claros.","6Z88GnGLrg0","26:44"]]};
 
-const pcList=(L,cls)=>`<ul class="${cls}">${L.map(([tx,id,m])=>`<li><span>${esc(tx)}</span><a href="${yt(id,m)}" target="_blank" rel="noopener">${face(id)}${esc(who(id))} · ${minTxt(m)} ▸</a></li>`).join("")}</ul>`;
-const pcHTML=P=>P?`<div class="pc"><div class="pcb"><h4>👍 Lo bueno</h4>${pcList(P.pro||[],"pro")}</div><div class="pcm"><h4>👎 Lo malo</h4>${pcList(P.con||[],"con")}</div></div>`:"";
+// v36: la idea principal en negrita (lo que va antes de los dos puntos)
+const lead=tx=>{const i=tx.indexOf(": ");return i>8&&i<75?`<b>${esc(tx.slice(0,i))}:</b> ${esc(tx.slice(i+2))}`:esc(tx)};
+const pcList=(L,cls)=>`<ul class="${cls}">${L.map(([tx,id,m])=>`<li><i class="pci" aria-hidden="true">${cls==="pro"?"✓":"✕"}</i><div><span>${lead(tx)}</span><a class="pcs" href="${yt(id,m)}" target="_blank" rel="noopener">${face(id)}${esc(who(id))} · ${minTxt(m)} ▸</a></div></li>`).join("")}</ul>`;
+const pcHead=(e,t,n,s)=>`<div class="pch"><span class="pce" aria-hidden="true">${e}</span><div><h4>${t}</h4><small>${n} ${n===1?s[0]:s[1]}</small></div></div>`;
+const pcHTML=P=>P?`<div class="pc"><div class="pcb">${pcHead("👍","Lo bueno",(P.pro||[]).length,["a favor","a favor"])}${pcList(P.pro||[],"pro")}</div><div class="pcm">${pcHead("👎","Lo malo",(P.con||[]).length,["en contra","en contra"])}${pcList(P.con||[],"con")}</div></div>`:"";
 function semiBox(){const el=document.getElementById("semibox");if(el)el.innerHTML=`<h3>Semiprofesional: lo que ganás y lo que resignás</h3><p class="sbs">Lo que más se repite en las charlas de los que juegan en ligas donde el rugby no alcanza solo.</p>${pcHTML(SEMI)}`}
 const lgOpen={};
 function lgSteps(){semiBox();const el=document.getElementById("lgsteps");if(!el)return;const map={A:"rugby",B:"catB",C:"catC",D:"catD"},H={A:100,B:74,C:52,D:34};
@@ -1178,7 +1232,7 @@ function renderLg(){const tke=document.getElementById("lgticks");if(tke)tke.inne
     const L=first?(LP[x.c]||[]).filter(p=>!pcs.has(p[1]+p[2])):[],op=lgOpen[x.k];
     if(lgS==="plata"&&x.cat!==lc){lc=x.cat;const k=CATS[x.cat];cards+=`<h3 class="lgch"><span>${k[0]}</span>${k[1]}</h3>`}
     const tile=(ic,lb,v,txt)=>`<div class="tile ${stc(v)}"><span class="ti">${ic}</span><span><small>${lb}</small><b>${STX[v]||"Sin dato"}</b>${txt&&txt!==(STX[v]||"")?`<em>${esc(txt)}</em>`:""}</span></div>`;
-    const posta=L.length?`<div class="posta2"><h4>Lo que nadie te cuenta</h4><ol>${(op?L:L.slice(0,2)).map(([tx,pid,pm])=>`<li><p>${esc(tx)}</p><a href="${yt(pid,pm)}" target="_blank" rel="noopener">${face(pid)}${esc(who(pid))} · ${minTxt(pm)} ▸</a></li>`).join("")}</ol>${L.length>2?`<button type="button" class="pmore" data-more="${x.k}">${op?"Ver menos":`Ver ${L.length-2} más`}</button>`:""}</div>`:"";
+    const posta=L.length?`<div class="posta2"><h4><span aria-hidden="true">🤫</span> Lo que nadie te cuenta</h4><ol>${(op?L:L.slice(0,2)).map(([tx,pid,pm])=>`<li><p>${lead(tx)}</p><a class="pcs" href="${yt(pid,pm)}" target="_blank" rel="noopener">${face(pid)}${esc(who(pid))} · ${minTxt(pm)} ▸</a></li>`).join("")}</ol>${L.length>2?`<button type="button" class="pmore" data-more="${x.k}">${op?"Ver menos":`Ver ${L.length-2} más`}</button>`:""}</div>`:"";
     cards+=`<article class="lgc cat${x.cat}" id="lg-${x.k}" data-c="${x.c}" style="animation-delay:${i*40}ms">
       <header><span class="fl">${C[x.c][1]}</span><div><h3>${esc(C[x.c][0])}</h3><span class="lgl">${esc(x.n)}</span></div><span class="cb">${CATS[x.cat][0]} ${CATS[x.cat][1]}</span></header>
       ${(()=>{const hasT=x.t||x.tt,noh=x.trab==="nohace";const second=hasT?`<div class="pay tr"><small>💼 Suma un trabajo</small><b>${esc(x.tt)}</b><em>${esc(x.tn||"")}</em></div>`:noh?`<div class="pay ok"><small>💼 ¿Hace falta trabajar?</small><b>No</b><em>El rugby alcanza para vivir</em></div>`:"";if(!x.r&&hasT)return `<div class="split one">${second}</div><p class="lgsub">🏉 <b>Del club:</b> ${x.rt==="Sin dato"?"en la charla no hay una cifra; lo fuerte es el trabajo.":esc(x.rt.toLowerCase())+(x.rn?` (${esc(x.rn)})`:"")+"."}</p>`;return `<div class="split${second?"":" one"}"><div class="pay ru"><small>🏉 Paga el rugby</small><b>${esc(x.rt)}</b><em>${esc(x.rn||"")}</em></div>${second}</div>`})()}
@@ -1449,7 +1503,7 @@ function cabRender(){const el=document.getElementById("cbbody");if(!el)return;co
  el.innerHTML=`<div class="cbintro"><div class="cbq"><blockquote>“${esc(q[0])}”</blockquote><p>${esc(q[1])}</p>${src(q[2],q[3])}</div>
  <div class="cbhelp"><b>Si la estás pasando mal, hablalo.</b> Con un amigo, con tu familia o con un profesional. No hace falta esperar a estar muy mal. Como dice ${esc(h[0])}: “${esc(h[1])}”.<br>${src(h[2],h[3])}</div></div>
  <div class="cbstories">${CB.stories.map(s=>`<article class="cbs"><p class="k">${esc(s.k)}</p><h3>${esc(s.t)}</h3><p>${esc(s.p)}</p><p class="lit">“${esc(s.lit)}”</p>${src(s.s[0],s.s[1])}</article>`).join("")}</div>
- <div class="cbcols">${CB.cols.map(c=>`<div class="cbcol"><h3>${c.t}</h3><ul>${c.it.map(i=>`<li><b>${esc(i[0])}</b><span class="t">${esc(i[1])}</span>${src(i[2],i[3])}</li>`).join("")}</ul></div>`).join("")}</div>`}
+ <div class="cbcols">${CB.cols.map(c=>`<div class="cbcol"><h3>${c.t}</h3><ul>${c.it.map(i=>`<li><i class="cbd" aria-hidden="true"></i><div><b>${esc(i[0])}</b><span class="t">${esc(i[1])}</span>${src(i[2],i[3])}</div></li>`).join("")}</ul></div>`).join("")}</div>`}
 cabRender();
 // v17: pestañas debajo del mapa, para que la página no sea eterna
 const TABS=["liga-por-liga","cabeza","guia","preguntas","tu-liga","charlas","suma"];
