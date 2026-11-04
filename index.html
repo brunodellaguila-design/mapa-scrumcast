@@ -89,7 +89,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .q small{display:block;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
 .q span{display:block;font-weight:800;font-size:14px;line-height:1.3;margin-top:3px}
 .quick-src{font-size:12px;color:var(--muted);margin:8px 0 0}
-.facts{display:grid;gap:10px}
+.facts{display:grid;gap:10px}.perf summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.perf summary::-webkit-details-marker{display:none}.perf summary h3{margin:0}.perf summary span{font-size:12px;color:var(--muted,#9FB3C1)}.perf summary::after{content:"+";margin-left:auto;font:800 20px var(--body);color:var(--yellow)}.perf[open] summary::after{content:"–"}.dm{margin:12px 0 0;font-size:14px;color:var(--cream)}.dm a{color:var(--yellow);font-weight:800}
 .fact{position:relative;background:var(--navy3);border-radius:12px;padding:12px 14px 12px 18px;overflow:hidden}
 .fact::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c)}
 .fact .k{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
@@ -704,7 +704,7 @@ a[href*="open.spotify.com/episode"].pcs::after,a[href*="open.spotify.com/episode
 <section class="hero" id="inicio">
   <div class="wrap grid">
     <div>
-      <p class="eyebrow">El mapa del rugby afuera</p>
+      <p class="eyebrow">Sueldos del rugby en el exterior</p>
       <h1>¿Te vas a jugar afuera?<br><span class="y">Escuchá a los que ya fueron.</span></h1>
       <p class="sub">Cuánto se cobra, si te dan casa, si hay que laburar y qué nivel tiene cada liga. Lo cuentan los que jugaron ahí, en las charlas de ScrumCast, y cada dato te lleva al minuto exacto en que lo dicen.</p>
       <div class="ctas"><a class="btn main" href="#mapa">Explorar el mapa</a><a class="btn" href="#guia">Antes de irte</a></div>
@@ -900,7 +900,7 @@ const FACTS={
   {k:"casa",b:"Vivís en el hotel del club",t:"No te dan casa ni auto: los clubes los banca el Estado y todos viven en un hotel del predio, con la comida incluida.",id:"wXxvVPp7J7Q",m:"25:12"},
   {k:"ojo",b:"Cinco meses de visa sin cobrar",t:"La visa le tardó 5 meses y en ese tiempo no cobró. Llevá ahorros.",id:"wXxvVPp7J7Q",m:"34:58"}],
  "Germany":[
-  {k:"plata",b:"De 1.000 a 1.700 € por mes",t:"En Frankfurt, entre 1.000 y 1.700 € por mes. Hubo contratos de 2.000 o 2.200 € más departamento.",id:"50BBCWj19e0",m:"65:49"},
+  {k:"plata",b:"Frankfurt: de 1.000 a 1.700 €",t:"En Frankfurt, entre 1.000 y 1.700 € por mes. Hubo contratos de 2.000 o 2.200 € más departamento.",id:"50BBCWj19e0",m:"65:49"},
   {k:"casa",b:"Te dan casa y te consiguen laburo",t:"Lo más normal en Alemania: el club te da dónde vivir y te consigue un trabajo.",id:"50BBCWj19e0",m:"65:02"},
   {k:"ojo",b:"Sin pasaporte europeo, cuesta",t:"Pagan todos los meses y en blanco, pero no suelen hacer visas a argentinos: él jugó con pasaporte alemán.",id:"50BBCWj19e0",m:"65:49"},
   {k:"plata",b:"El mejor club: 2.000 € más casa",t:"El club más fuerte de Alemania, donde jugaba la selección, pagaba 2.000 € de contrato más casa: todos profesionales. Cuando se disolvió, Frankfurt se llevó a varios.",id:"50BBCWj19e0",m:"34:10"},
@@ -942,7 +942,7 @@ const FACTS={
   {k:"casa",b:"Casa, comida y un part time",t:"DHB y regional (San Roque, Valencia): el club le daba casa y comida. Para ahorrar se consiguió un trabajo de pocas horas, de lunes a viernes.",id:"3BUnw4KT63nDmjbx8CmntF",m:"20:10"},
   {k:"plata",b:"Seven: los mejores, ~2.000 €",t:"Selección de Seven (no es liga): en el equipo español hay unos 15 con contrato sobre 25 o 26 jugadores. Los que más cobran andan por los 2.000 €, con hotel y comida pagos.",id:"5JiwkJo7v4p15625S1bA8E",m:"19:00"},
   {k:"plata",b:"500 € y de camarero",t:"División de Honor (Santander): el primer año cobraba 500 € con casa y almuerzo. No alcanzaba para mucho: sumaba de camarero cuando salía algo.",id:"4Uq2SU8EJAlj3qRCsYwrh8",m:"23:47"},
-  {k:"plata",b:"Honor arranca en ~1.000 €",t:"División de Honor: los contratos arrancan en unos 1.000 €, y algunos clubes pagan menos. Con 800 € y sin casa, se vive muy justo.",id:"7YdufVqaAIE",m:"21:19"},
+  {k:"plata",b:"Honor: unos 1.000 €, algunos menos",t:"División de Honor: los contratos arrancan en unos 1.000 €, y algunos clubes pagan menos. Con 800 € y sin casa, se vive muy justo.",id:"7YdufVqaAIE",m:"21:19"},
   {k:"casa",b:"Casa y coche: según el club",t:"División de Honor: algunos clubes dan casa y coche, otros no.",id:"7YdufVqaAIE",m:"21:19"},
   {k:"trabajo",b:"Sueldo, laburo o mitad y mitad",t:"División de Honor: hay clubes que te dan un trabajo en vez de sueldo, y otros que te dan mitad sueldo y mitad trabajo.",id:"L09Lm35N9zw",m:"12:10"},
   {k:"ojo",b:"Ojo con el verano",t:"División de Honor (Les Abelles): muchos contratos no cubren el verano. En su club pagan 12 meses, pero en verano bajan el salario al mínimo.",id:"L09Lm35N9zw",m:"25:04"},
@@ -1033,7 +1033,7 @@ const nOf=c=>(byC[c]||[]).length;
 const sortEp=(a,b)=>(LORD.indexOf(a.l)-LORD.indexOf(b.l))||b.d.localeCompare(a.d);
 document.getElementById("nEp").textContent=EP.length;
 document.getElementById("nPa").textContent=countries.length;
-document.getElementById("nLg").textContent=new Set(EP.filter(e=>!["Fuera de la cancha","Selección","Seven","Rugby de clubes"].includes(e.l)).map(e=>e.p+e.l)).size;
+setTimeout(()=>{document.getElementById("nLg").textContent=LG.length},0);
 const TBL=Object.fromEntries(TABLE.map(r=>[r[0],r]));
 const slug=c=>C[c][0].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z]+/g,"-").replace(/^-|-$/g,"");
 const BYSLUG=Object.fromEntries(Object.keys(C).map(c=>[slug(c),c]));
@@ -1051,19 +1051,21 @@ let expanded=false;
 function factHTML(f){const e=EPI[f.id];return `<div class="fact" style="--c:${CV[f.k]}"><span class="k">${TAGS[f.k]}</span><b class="b">${esc(f.b)}</b><p>${esc(f.t)}</p><div class="src"><a class="play" href="${yt(f.id,f.m)}" target="_blank" rel="noopener">Escuchalo · ${minTxt(f.m)}</a><span>${esc(e.n)}</span></div></div>`}
 function epHTML(e){return `<div class="ep">${thumb(e)}<span class="lg">${esc(e.l)}</span><span class="n">${esc(e.n)}${isNew(e)?'<span class="new">Nuevo</span>':""}</span><span class="c">${esc(e.c)}</span><span class="t">${esc(e.t)}</span>
 <div class="go">${e.id?`<a class="yt" href="${yt(e.id)}" target="_blank" rel="noopener">YouTube</a>`:""}<a class="${e.id?"sp":"yt"}" href="${spl(e)}" target="_blank" rel="noopener">Spotify</a></div></div>`}
+let factsAll=false;
 function show(c,keep){
-  if(!keep)expanded=false;
-  const own=(byC[c]||[]).slice().sort(sortEp),ex0=(alsoC[c]||[]).filter(e=>e.p!==c),onlyAlso=!own.length,list=onlyAlso?ex0.slice().sort(sortEp):own,extra=onlyAlso?[]:ex0,f=FACTS[c]||[],r=TBL[c];
+  if(!keep){expanded=false;factsAll=false}
+  const own=(byC[c]||[]).slice().sort(sortEp),ex0=(alsoC[c]||[]).filter(e=>e.p!==c),onlyAlso=!own.length,list=onlyAlso?ex0.slice().sort(sortEp):own,extra=onlyAlso?[]:ex0,KO={plata:0,casa:1,ojo:2,trabajo:3,nivel:4},f=(FACTS[c]||[]).map((x,i)=>[x,i]).sort((a,b)=>((KO[a[0].k]??9)-(KO[b[0].k]??9))||a[1]-b[1]).map(x=>x[0]),r=TBL[c];
   let h=`<div class="ph"><div><p class="eyebrow">${C[c][1]} País</p><h2>${esc(C[c][0])}</h2></div><div class="big">${list.length}<small>${list.length===1?"charla":"charlas"}</small></div></div>`;
   if(r)h+=`<div class="blk"><h3>De un vistazo · ${esc(r[1])}</h3><div class="quick">${[["plata","Plata",r[2]],["casa","Casa",r[3]],["trabajo","Trabajo",r[4]]].filter(x=>x[2]!=="—").map(([k,l,v])=>`<div class="q" style="--c:var(--${k})"><small>${l}</small><span>${esc(v)}</span></div>`).join("")}</div></div>`;
-  h+=`<div class="blk"><h3>Lo que contaron</h3>`+(f.length?`<div class="facts">${f.map(factHTML).join("")}</div>`:`<p class="nofacts">Todavía no hay datos de plata o casa de ${esc(C[c][0])}. Están en las charlas de abajo.</p>`)+`</div>`;
-  if(PERFIL[c])h+=`<div class="blk"><h3>Cómo es jugar ahí</h3>${perfilHTML(c)}</div>`;
+  h+=`<div class="blk"><h3>Lo que contaron</h3>`+(f.length?`<div class="facts">${(factsAll?f:f.slice(0,5)).map(factHTML).join("")}</div>${f.length>5?`<button type="button" class="more" id="moref">${factsAll?"Ver menos":`Ver los ${f.length} datos de ${esc(C[c][0])}`}</button>`:""}`:`<p class="nofacts">Todavía no hay datos de plata o casa de ${esc(C[c][0])}. Están en las charlas de abajo.</p>`)+`</div>`;
+  if(PERFIL[c])h+=`<div class="blk"><details class="perf"><summary><h3>Cómo es jugar ahí</h3><span>nivel, representante, cabeza y vida</span></summary>${perfilHTML(c)}</details></div>`;
   if(list.length){const LIM=4,show_=expanded?list:list.slice(0,LIM);
     h+=`<div class="blk"><h3>${onlyAlso?"Charlas donde lo cuentan":"Las charlas"}</h3><div class="eps">${show_.map(epHTML).join("")}</div>${list.length>LIM?`<button type="button" class="more" id="more">${expanded?"Ver menos":`Ver las ${list.length} charlas`}</button>`:""}</div>`}
-  h+=`<div class="share-c"><button type="button" id="sharec">Compartir ${esc(C[c][0])}</button><span id="sharemsg"></span></div>`;
+  h+=`<div class="share-c"><button type="button" id="sharec">Compartir ${esc(C[c][0])}</button><span id="sharemsg"></span></div><p class="dm">¿Te llegó una oferta de ${esc(C[c][0])} y tenés dudas? <a href="https://ig.me/m/scrumcast_" target="_blank" rel="noopener">Escribinos por Instagram</a></p>`;
   if(extra.length)h+=`<p class="also">También jugaron en ${esc(C[c][0])}: ${extra.map(e=>`<a href="${main(e)}" target="_blank" rel="noopener">${esc(e.n)}</a>`).join(", ")}.</p>`;
   const p=document.getElementById("panel");p.innerHTML=h;if(!keep)p.scrollTop=0;p.dataset.c=c;
   const m=document.getElementById("more");if(m)m.onclick=()=>{expanded=!expanded;show(c,true)};
+  const mf=document.getElementById("moref");if(mf)mf.onclick=()=>{factsAll=!factsAll;show(c,true)};
   try{if(!keep&&window._map)history.replaceState(null,"","#"+slug(c))}catch(e){}
   document.getElementById("sharec").onclick=()=>{const u=location.href.split("#")[0]+"#"+slug(c),msg=document.getElementById("sharemsg");
     try{navigator.clipboard.writeText(u).then(()=>{msg.textContent="Link copiado"},()=>{msg.textContent=u})}catch(e){msg.textContent=u}};
