@@ -1576,18 +1576,18 @@ sp.innerHTML=`🎧 Se abre Spotify. Andá al minuto <b>${m}</b>`;sp.classList.ad
 // v17: pestañas debajo del mapa, para que la página no sea eterna
 const TABS=["liga-por-liga","cabeza","guia","preguntas","tu-liga","charlas","suma"];
 let curTab=null;
-function openTab(id,scroll){if(!TABS.includes(id))return;curTab=id;
+function openTab(id,scroll,nohash){if(!TABS.includes(id))return;curTab=id;
   TABS.forEach(k=>{const s=document.getElementById(k);if(s)s.hidden=k!==id});
   document.querySelectorAll("#xtabs [data-t]").forEach(b=>{const on=b.dataset.t===id;b.setAttribute("aria-selected",on);if(on){const n=b.parentElement;if(n.scrollWidth>n.clientWidth)n.scrollTo({left:b.offsetLeft-n.clientWidth/2+b.offsetWidth/2,behavior:"smooth"})}});
   document.querySelectorAll(".nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+id));
-  try{history.replaceState(null,"","#"+id)}catch(e){}
+  if(!nohash)try{history.replaceState(null,"","#"+id)}catch(e){}
   if(scroll)document.getElementById("xbar").scrollIntoView({behavior:"smooth",block:"start"});
   document.querySelectorAll("#"+id+" .reveal").forEach(x=>x.classList.add("in"))}
 document.getElementById("xtabs").addEventListener("click",ev=>{const b=ev.target.closest("[data-t]");if(b)openTab(b.dataset.t,true)});
 document.addEventListener("click",ev=>{const a=ev.target.closest('a[href^="#"]');if(!a)return;const id=a.getAttribute("href").slice(1);
   if(TABS.includes(id)){ev.preventDefault();openTab(id,true)}
   else if(id==="suma-form"){ev.preventDefault();openTab("suma",false);document.getElementById("suma-form").scrollIntoView({behavior:"smooth",block:"start"})}});
-{const h=(location.hash||"").slice(1);if(TABS.includes(h)){openTab(h,false);setTimeout(()=>document.getElementById("xbar").scrollIntoView({block:"start"}),60)}else openTab("liga-por-liga",false);
+{const h=(location.hash||"").slice(1);if(TABS.includes(h)){openTab(h,false);setTimeout(()=>document.getElementById("xbar").scrollIntoView({block:"start"}),60)}else{openTab("liga-por-liga",false,true);if(!h){try{history.scrollRestoration="manual"}catch(e){}scrollTo(0,0)}}
  if(!TABS.includes(h)&&h&&!BYSLUG[h])try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}
 window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(TABS.includes(h))openTab(h,true)});
 
