@@ -1,0 +1,15 @@
+{
+  "name": "mapa-scrumcast",
+  "version": "1.0.0",
+  "description": "ScrumCast - El lado B del rugby: Sueldos del rugby semiprofesional en 20 países",
+  "scripts": {
+    "dev": "npx serve .",
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": ["rugby", "scrumcast", "analytics"],
+  "author": "Bruno Dell Aguila",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
