@@ -116,7 +116,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .also a{color:var(--cream);font-weight:700}
 
 .new{display:inline-block;font:800 9px var(--body);letter-spacing:.12em;text-transform:uppercase;background:var(--ojo);color:var(--navy);border-radius:4px;padding:2px 6px;margin-left:6px;vertical-align:middle}
-.share-c{display:flex;align-items:center;gap:10px;padding:0 20px 14px}
+.share-c{display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:0 20px 14px}.share-c .wa{font:800 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:#0b1a12;background:#25d366;border-radius:999px;padding:8px 14px;text-decoration:none}.share-c .wa:hover{filter:brightness(1.08)}
 .share-c button{font:800 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--cream);background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:7px 12px;cursor:pointer}
 .share-c button:hover{border-color:var(--turq)}
 .share-c span{font-size:12px;color:var(--muted)}
@@ -1035,6 +1035,14 @@ document.getElementById("nEp").textContent=EP.length;
 document.getElementById("nPa").textContent=countries.length;
 setTimeout(()=>{document.getElementById("nLg").textContent=LG.length},0);
 const TBL=Object.fromEntries(TABLE.map(r=>[r[0],r]));
+const TRK=(()=>{const U="https://obwjbcxexxnlppxsnetp.supabase.co/rest/v1/scrumcast_eventos",K="sb_publishable_3ywtvWjvh1NYkazsrefUzg_BQACH2l4";
+  const on=/(^|\.)scrumcast\.vercel\.app$/.test(location.hostname);const seen={};
+  return (t,v)=>{if(!on)return;v=String(v||"").slice(0,80);const k=t+"|"+v;if(seen[k]&&Date.now()-seen[k]<5000)return;seen[k]=Date.now();
+    try{fetch(U,{method:"POST",keepalive:true,headers:{"apikey":K,"Authorization":"Bearer "+K,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify({tipo:t,valor:v})}).catch(()=>{})}catch(e){}}})();
+document.addEventListener("click",ev=>{const a=ev.target.closest("a[href]");if(!a)return;const h=a.href;
+  if(/youtu|spotify\.com\/episode/.test(h)){const e=EP.find(x=>h.includes(x.id)||(x.sp&&h.includes(x.sp)));const t=(h.match(/[?&]t=(\d+)/)||[])[1];TRK("escuchar",(e?e.n:"episodio")+(t?" @"+Math.floor(t/60)+":"+String(t%60).padStart(2,"0"):""))}
+  else if(/wa\.me/.test(h))TRK("whatsapp",a.dataset.c||"")
+  else if(/ig\.me|instagram\.com/.test(h))TRK("instagram",a.closest("section")?.id||"")},true);
 const slug=c=>C[c][0].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z]+/g,"-").replace(/^-|-$/g,"");
 const BYSLUG=Object.fromEntries(Object.keys(C).map(c=>[slug(c),c]));
 const isNew=e=>e.d>="2026-05";
@@ -1052,7 +1060,7 @@ function factHTML(f){const e=EPI[f.id];return `<div class="fact" style="--c:${CV
 function epHTML(e){return `<div class="ep">${thumb(e)}<span class="lg">${esc(e.l)}</span><span class="n">${esc(e.n)}${isNew(e)?'<span class="new">Nuevo</span>':""}</span><span class="c">${esc(e.c)}</span><span class="t">${esc(e.t)}</span>
 <div class="go">${e.id?`<a class="yt" href="${yt(e.id)}" target="_blank" rel="noopener">YouTube</a>`:""}<a class="${e.id?"sp":"yt"}" href="${spl(e)}" target="_blank" rel="noopener">Spotify</a></div></div>`}
 let factsAll=false;
-function show(c,keep){
+function show(c,keep){if(!keep)TRK("pais",c);
   if(!keep){expanded=false;factsAll=false}
   const own=(byC[c]||[]).slice().sort(sortEp),ex0=(alsoC[c]||[]).filter(e=>e.p!==c),onlyAlso=!own.length,list=onlyAlso?ex0.slice().sort(sortEp):own,extra=onlyAlso?[]:ex0,KO={plata:0,casa:1,ojo:2,trabajo:3,nivel:4},f=(FACTS[c]||[]).map((x,i)=>[x,i]).sort((a,b)=>((KO[a[0].k]??9)-(KO[b[0].k]??9))||a[1]-b[1]).map(x=>x[0]),r=TBL[c];
   let h=`<div class="ph"><div><p class="eyebrow">${C[c][1]} País</p><h2>${esc(C[c][0])}</h2></div><div class="big">${list.length}<small>${list.length===1?"charla":"charlas"}</small></div></div>`;
@@ -1061,13 +1069,13 @@ function show(c,keep){
   if(PERFIL[c])h+=`<div class="blk"><details class="perf"><summary><h3>Cómo es jugar ahí</h3><span>nivel, representante, cabeza y vida</span></summary>${perfilHTML(c)}</details></div>`;
   if(list.length){const LIM=4,show_=expanded?list:list.slice(0,LIM);
     h+=`<div class="blk"><h3>${onlyAlso?"Charlas donde lo cuentan":"Las charlas"}</h3><div class="eps">${show_.map(epHTML).join("")}</div>${list.length>LIM?`<button type="button" class="more" id="more">${expanded?"Ver menos":`Ver las ${list.length} charlas`}</button>`:""}</div>`}
-  h+=`<div class="share-c"><button type="button" id="sharec">Compartir ${esc(C[c][0])}</button><span id="sharemsg"></span></div><p class="dm">¿Te llegó una oferta de ${esc(C[c][0])} y tenés dudas? <a href="https://ig.me/m/scrumcast_" target="_blank" rel="noopener">Escribinos por Instagram</a></p>`;
+  h+=`<div class="share-c"><a class="wa" data-c="${esc(c)}" href="https://wa.me/?text=${encodeURIComponent("Mirá cuánto se cobra y cómo es jugar al rugby en "+C[c][0]+", contado por los que jugaron: https://scrumcast.vercel.app/#"+slug(c))}" target="_blank" rel="noopener">Mandar ${esc(C[c][0])} por WhatsApp</a><button type="button" id="sharec">Copiar link</button><span id="sharemsg"></span></div><p class="dm">¿Te llegó una oferta de ${esc(C[c][0])} y tenés dudas? <a href="https://ig.me/m/scrumcast_" target="_blank" rel="noopener">Escribinos por Instagram</a></p>`;
   if(extra.length)h+=`<p class="also">También jugaron en ${esc(C[c][0])}: ${extra.map(e=>`<a href="${main(e)}" target="_blank" rel="noopener">${esc(e.n)}</a>`).join(", ")}.</p>`;
   const p=document.getElementById("panel");p.innerHTML=h;if(!keep)p.scrollTop=0;p.dataset.c=c;
   const m=document.getElementById("more");if(m)m.onclick=()=>{expanded=!expanded;show(c,true)};
   const mf=document.getElementById("moref");if(mf)mf.onclick=()=>{factsAll=!factsAll;show(c,true)};
   try{if(!keep&&window._map)history.replaceState(null,"","#"+slug(c))}catch(e){}
-  document.getElementById("sharec").onclick=()=>{const u=location.href.split("#")[0]+"#"+slug(c),msg=document.getElementById("sharemsg");
+  document.getElementById("sharec").onclick=()=>{const u="https://scrumcast.vercel.app/#"+slug(c),msg=document.getElementById("sharemsg");TRK("compartir",c);
     try{navigator.clipboard.writeText(u).then(()=>{msg.textContent="Link copiado"},()=>{msg.textContent=u})}catch(e){msg.textContent=u}};
   if(window._map)paint(c);
 }
@@ -1508,7 +1516,7 @@ svg.addEventListener("pointerleave",()=>{tip.style.display="none"});
 window._map=true;
 setVB(VIEWS.europa[0],VIEWS.europa[1],VIEWS.europa[2],false);
 const h0=BYSLUG[(location.hash||"").slice(1)];
-if(h0&&countries.includes(h0)){show(h0,true);focusOn(h0);setTimeout(()=>document.getElementById("mapa").scrollIntoView({block:"start"}),50)}else show("France",true);
+if(h0&&countries.includes(h0)){TRK("llegada",h0);show(h0,true);focusOn(h0);setTimeout(()=>document.getElementById("mapa").scrollIntoView({block:"start"}),50)}else show("France",true);
 window.addEventListener("hashchange",()=>{const c=BYSLUG[location.hash.slice(1)];if(c&&countries.includes(c)){show(c,true);focusOn(c)}});
 
 // v11: navegación activa, aparición suave, volver arriba, fila de tabla elegida
@@ -1581,13 +1589,14 @@ function openTab(id,scroll,nohash){if(!TABS.includes(id))return;curTab=id;
   document.querySelectorAll("#xtabs [data-t]").forEach(b=>{const on=b.dataset.t===id;b.setAttribute("aria-selected",on);if(on){const n=b.parentElement;if(n.scrollWidth>n.clientWidth)n.scrollTo({left:b.offsetLeft-n.clientWidth/2+b.offsetWidth/2,behavior:"smooth"})}});
   document.querySelectorAll(".nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+id));
   if(!nohash)try{history.replaceState(null,"","#"+id)}catch(e){}
+  if(scroll)TRK("pestana",id);
   if(scroll)document.getElementById("xbar").scrollIntoView({behavior:"smooth",block:"start"});
   document.querySelectorAll("#"+id+" .reveal").forEach(x=>x.classList.add("in"))}
 document.getElementById("xtabs").addEventListener("click",ev=>{const b=ev.target.closest("[data-t]");if(b)openTab(b.dataset.t,true)});
 document.addEventListener("click",ev=>{const a=ev.target.closest('a[href^="#"]');if(!a)return;const id=a.getAttribute("href").slice(1);
   if(TABS.includes(id)){ev.preventDefault();openTab(id,true)}
   else if(id==="suma-form"){ev.preventDefault();openTab("suma",false);document.getElementById("suma-form").scrollIntoView({behavior:"smooth",block:"start"})}});
-{const h=(location.hash||"").slice(1);if(TABS.includes(h)){openTab(h,false);setTimeout(()=>document.getElementById("xbar").scrollIntoView({block:"start"}),60)}else{openTab("liga-por-liga",false,true);if(!h){try{history.scrollRestoration="manual"}catch(e){}scrollTo(0,0)}}
+{const h=(location.hash||"").slice(1);if(TABS.includes(h)){TRK("llegada",h);openTab(h,false);setTimeout(()=>document.getElementById("xbar").scrollIntoView({block:"start"}),60)}else{openTab("liga-por-liga",false,true);if(!h){try{history.scrollRestoration="manual"}catch(e){}scrollTo(0,0)}}
  if(!TABS.includes(h)&&h&&!BYSLUG[h])try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}
 window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(TABS.includes(h))openTab(h,true)});
 
@@ -1613,7 +1622,7 @@ window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(TABS
     let ok=false;
     if(db&&me){try{await db.collection("aportes").doc(me).set({...d,enviado:new Date().toISOString()});ok=true}catch(e){}}
     if(!ok){try{await toSupabase(d);ok=true}catch(e){}}
-    if(ok){msg.textContent="¡Gracias! Llegó. Bruno lo revisa y lo suma al mapa.";f.reset()}
+    if(ok){TRK("formulario",d.pais);msg.textContent="¡Gracias! Llegó. Bruno lo revisa y lo suma al mapa.";f.reset()}
     else{msg.textContent="No se pudo mandar desde acá. Usá «Copiar y mandar por Instagram».";send.dataset.fallback="1";send.textContent="Mandar mi liga por Instagram"}
     send.disabled=false});
   function owner(){const box=document.getElementById("aportes");box.hidden=false;box.innerHTML='<h3>Aportes recibidos</h3><p class="amuted">Solo vos ves esta lista.</p><div id="alist">Cargando…</div>';
