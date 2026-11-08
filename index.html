@@ -523,6 +523,19 @@ section[id]{scroll-margin-top:150px}
 .lgsel{margin-bottom:12px}.lgsel .lgc{max-width:760px;margin:0 auto}
 .lgrow.picked{box-shadow:inset 4px 0 0 var(--yellow);background:color-mix(in srgb,var(--yellow) 8%,transparent)}
 .lgall{text-align:center;margin-top:10px}
+.vs{margin-top:22px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:16px}
+.vs h3{margin:0;font-family:var(--display);text-transform:uppercase;font-size:22px;letter-spacing:.01em}
+.vs .vsn{margin:4px 0 12px;color:var(--muted);font-size:13px}
+.vsel{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.vsel select{flex:1 1 140px;min-width:0;font:600 14px var(--body);color:var(--cream);background:var(--navy2);border:1.5px solid var(--line);border-radius:10px;padding:9px 10px}
+.vsel span{font:800 12px var(--body);color:var(--yellow);text-transform:uppercase}
+.vsout{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.vsc{background:rgba(255,255,255,.04);border-radius:12px;padding:12px;min-width:0}
+.vsc h4{margin:0 0 2px;font-family:var(--display);text-transform:uppercase;font-size:19px;line-height:1.05}
+.vsc .vp{color:var(--muted);font-size:12px;margin-bottom:8px}
+.vsc dl{margin:0;display:grid;gap:7px}.vsc dt{font:800 10px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.vsc dd{margin:0;font-size:14px;line-height:1.3}.vsc dd.big{font-family:var(--display);font-size:20px;color:var(--yellow)}
+.vsc dd small{display:block;color:var(--muted);font-size:12px}.vsc a{color:var(--turq);font-weight:700}
 .sform{background:var(--navy2);border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;gap:14px}
 .sform label{display:grid;gap:6px;font-size:12px;font-weight:700;color:var(--muted)}
 .sform input:not([type=radio]):not([type=checkbox]),.sform textarea{font:600 15px var(--body);color:var(--cream);background:var(--navy3);border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;box-sizing:border-box}
@@ -759,6 +772,9 @@ a[href*="open.spotify.com/episode"].pcs::after,a[href*="open.spotify.com/episode
     <div id="lgchart"></div>
   </div>
   <div class="lgsel" id="lgsel"></div><div class="lglist" id="lglist" hidden></div><div class="lgall"><button type="button" class="btn" id="lgall">Ver todas las ligas en tarjetas</button></div>
+  <div class="vs" id="comparar"><h3>Compará dos ligas</h3><p class="vsn">Elegí dos y miralas una al lado de la otra.</p>
+    <div class="vsel"><select id="vsa" aria-label="Primera liga"></select><span>vs</span><select id="vsb" aria-label="Segunda liga"></select></div>
+    <div class="vsout" id="vsout"></div></div>
 </div></section>
 
 <section class="band" id="preguntas"><div class="wrap">
@@ -1217,6 +1233,18 @@ const LMIN=500,LMAX=100000,pct=v=>Math.max(0,Math.min(100,(Math.log(v)-Math.log(
 const eur=v=>v.toLocaleString("es-AR")+" €";
 const STX={si:"Sí",av:"A veces",nohace:"No hace falta","?":"Sin dato",no:"No"};
 const stc=v=>({si:"si",nohace:"si",av:"av"}[v]||"no");
+(function(){const A=document.getElementById("vsa"),B=document.getElementById("vsb"),O=document.getElementById("vsout");if(!A)return;
+  const opt=LG.map(x=>`<option value="${x.k}">${esc(C[x.c][1]+" "+x.n)}</option>`).join("");A.innerHTML=opt;B.innerHTML=opt;A.value="es";B.value="fed1";
+  const card=x=>{const cat=CATS[x.cat]||["","",""];return `<div class="vsc"><h4>${esc(x.n)}</h4><div class="vp">${esc(C[x.c][1]+" "+C[x.c][0])}</div><dl>
+    <dt>Tipo</dt><dd>${cat[0]} ${esc(cat[1])}</dd>
+    <dt>Lo que paga el rugby</dt><dd class="big">${esc(x.rt)}</dd><dd><small>${esc(x.rn||"")}</small></dd>
+    <dt>🏠 Casa</dt><dd>${esc(STX[x.casa]||"Sin dato")}</dd>
+    <dt>💼 Trabajo del club</dt><dd>${esc(STX[x.trab]||"Sin dato")}</dd>
+    ${x.note?`<dt>Ojo</dt><dd><small>${esc(x.note)}</small></dd>`:""}
+    ${x.who?`<dt>Lo cuenta</dt><dd>${esc(x.who)}${x.id?` · <a href="${yt(x.id,x.m)}" target="_blank" rel="noopener">Escuchalo${x.m?" ("+x.m+")":""}</a>`:""}</dd>`:""}
+  </dl></div>`};
+  const draw=ev=>{const a=LG.find(x=>x.k===A.value),b=LG.find(x=>x.k===B.value);O.innerHTML=card(a)+card(b);if(ev)TRK("comparar",a.n+" vs "+b.n)};
+  A.addEventListener("change",draw);B.addEventListener("change",draw);draw();})();
 // lo bueno y lo malo de cada liga, de las charlas: [texto, episodio, minuto]
 const PC={
  fed1:{pro:[["Un buen contrato de Fédérale 1: 2.000 € más departamento y auto.","89ug5sadz9g","1:21:52"],["Un club chico te puede tratar como un rey: casa con parque, auto, pasajes, trabajo para la pareja y sueldo fijo.","dfq6nBhNSok","12:59"]],
@@ -1454,6 +1482,7 @@ renderChips();
 document.getElementById("fchips").addEventListener("click",ev=>{const b=ev.target.closest("button");if(!b)return;fMode=b.dataset.f;renderChips();renderResults()});
 document.getElementById("results").addEventListener("click",ev=>{const b=ev.target.closest("[data-go]");if(b)go(b.dataset.go)});
 document.getElementById("q").addEventListener("input",renderResults);renderResults();
+{let qt;document.getElementById("q").addEventListener("input",e=>{clearTimeout(qt);const v=e.target.value.trim();if(v.length>=3)qt=setTimeout(()=>TRK("busqueda",v.toLowerCase()),1500)})}
 
 // compartir
 const linkEl=document.getElementById("link");linkEl.value=location.href.split("#")[0];
