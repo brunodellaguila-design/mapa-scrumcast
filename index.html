@@ -1040,7 +1040,7 @@ const TRK=(()=>{const U="https://obwjbcxexxnlppxsnetp.supabase.co/rest/v1/scrumc
   return (t,v)=>{if(!on)return;v=String(v||"").slice(0,80);const k=t+"|"+v;if(seen[k]&&Date.now()-seen[k]<5000)return;seen[k]=Date.now();
     try{fetch(U,{method:"POST",keepalive:true,headers:{"apikey":K,"Authorization":"Bearer "+K,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify({tipo:t,valor:v})}).catch(()=>{})}catch(e){}}})();
 document.addEventListener("click",ev=>{const a=ev.target.closest("a[href]");if(!a)return;const h=a.href;
-  if(/youtu|spotify\.com\/episode/.test(h)){const e=EP.find(x=>h.includes(x.id)||(x.sp&&h.includes(x.sp)));const t=(h.match(/[?&]t=(\d+)/)||[])[1];TRK("escuchar",(e?e.n:"episodio")+(t?" @"+Math.floor(t/60)+":"+String(t%60).padStart(2,"0"):""))}
+  if(/youtu|spotify\.com\/episode/.test(h)){const e=EP.find(x=>h.includes(x.id)||(x.s&&h.includes(x.s)));const t=(h.match(/[?&]t=(\d+)/)||[])[1];TRK("escuchar",(e?e.n:"episodio")+(t?" @"+Math.floor(t/60)+":"+String(t%60).padStart(2,"0"):""))}
   else if(/wa\.me/.test(h))TRK("whatsapp",a.dataset.c||"")
   else if(/ig\.me|instagram\.com/.test(h))TRK("instagram",a.closest("section")?.id||"")},true);
 const slug=c=>C[c][0].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z]+/g,"-").replace(/^-|-$/g,"");
