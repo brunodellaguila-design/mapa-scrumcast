@@ -123,6 +123,18 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 @keyframes ring{0%{stroke-opacity:.9}100%{stroke-opacity:0}}
 .ring{fill:none;stroke:#F2C230;animation:ring 1.6s ease-out infinite}
 @media (prefers-reduced-motion:reduce){.ring{animation:none;stroke-opacity:.5}}
+.hq{margin:22px 0 0;max-width:620px;border-left:4px solid var(--yellow);padding:4px 0 4px 16px;min-height:118px;display:flex;flex-direction:column;justify-content:center}
+.hq blockquote{margin:0;font-family:var(--display);font-size:clamp(22px,2.6vw,30px);line-height:1.12;color:var(--cream);transition:opacity .35s ease}
+.hq figcaption{margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--muted);transition:opacity .35s ease}
+.hq figcaption img{width:28px;height:28px;border-radius:50%;object-fit:cover}
+.hq figcaption b{color:var(--cream)}.hq figcaption a{color:var(--yellow);font-weight:800;text-decoration:none}
+.hq figcaption a:hover{text-decoration:underline}
+.hq.out blockquote,.hq.out figcaption{opacity:0}
+.hqd{display:flex;gap:6px;margin-top:10px}.hqd button{width:22px;height:4px;border-radius:2px;border:0;padding:0;background:var(--line);cursor:pointer}
+.hqd button[aria-selected="true"]{background:var(--yellow)}
+.hqd button:focus-visible{outline:2px solid var(--turq2);outline-offset:3px}
+@media (max-width:600px){.hq{min-height:172px;justify-content:flex-start}.hq figcaption span{flex-basis:100%;order:3}.hq figcaption a{order:4}}
+@media (prefers-reduced-motion:reduce){.hq blockquote,.hq figcaption{transition:none}}
 .how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:26px;max-width:860px}
 .how div{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted)}
 .how b{font-family:var(--display);font-weight:400;font-size:28px;color:var(--yellow);line-height:.9}
@@ -720,6 +732,7 @@ a[href*="open.spotify.com/episode"].pcs::after,a[href*="open.spotify.com/episode
       <p class="eyebrow">Sueldos del rugby en el exterior</p>
       <h1>¿Te vas a jugar afuera?<br><span class="y">Escuchá a los que ya fueron.</span></h1>
       <p class="sub">Cuánto se cobra, si te dan casa, si hay que laburar y qué nivel tiene cada liga. Lo cuentan los que jugaron ahí, en las charlas de ScrumCast, y cada dato te lleva al minuto exacto en que lo dicen.</p>
+      <figure class="hq" id="hq" aria-live="polite"><blockquote id="hqt"></blockquote><figcaption id="hqc"></figcaption><div class="hqd" id="hqd" role="tablist" aria-label="Otras frases"></div></figure>
       <div class="ctas"><a class="btn main" href="#mapa">Explorar el mapa</a><a class="btn" href="#guia">Antes de irte</a></div>
       <div class="how"><div><b>1</b><span><strong>Elegí un país</strong>En el mapa, la tira de fotos o la tabla.</span></div><div><b>2</b><span><strong>Mirá lo que contaron</strong>Plata, casa, trabajo y lo que hay que saber.</span></div><div><b>3</b><span><strong>Escuchalo de su boca</strong>Cada dato abre la charla en el minuto justo.</span></div></div>
     </div>
@@ -1233,6 +1246,21 @@ const LMIN=500,LMAX=100000,pct=v=>Math.max(0,Math.min(100,(Math.log(v)-Math.log(
 const eur=v=>v.toLocaleString("es-AR")+" €";
 const STX={si:"Sí",av:"A veces",nohace:"No hace falta","?":"Sin dato",no:"No"};
 const stc=v=>({si:"si",nohace:"si",av:"av"}[v]||"no");
+(function(){const Q=[["Pueden ganar 50, 60, 70 mil £ por mes","Cangu Mieres","las estrellas de la Premiership","4aee0kDdFaO63hkVfrgnYp","59:00"],
+ ["Si un club te ofrece 800 € y no te dan casa, pasás a estar muy justo","Tani Bay","la División de Honor española","7YdufVqaAIE","21:19"],
+ ["Tuve problemas con la visa y por 5 meses no vi un peso","Santiago Werkalec","su primer año en Rumania","wXxvVPp7J7Q","34:57"],
+ ["Hay una deuda de 2 millones de euros","Lautaro Caro Saisi","el club que quebró en Francia","89ug5sadz9g","59:08"]];
+ const box=document.getElementById("hq");if(!box)return;const T=document.getElementById("hqt"),Cc=document.getElementById("hqc"),D=document.getElementById("hqd");
+ let i=0,tm=null,paused=false;const red=matchMedia("(prefers-reduced-motion: reduce)").matches;
+ D.innerHTML=Q.map((q,k)=>`<button type="button" role="tab" aria-label="Frase de ${esc(q[1])}" data-i="${k}"></button>`).join("");
+ const put=k=>{i=k;const q=Q[k];T.textContent="“"+q[0]+"”";Cc.innerHTML=`${face(q[3])}<b>${esc(q[1])}</b><span>sobre ${esc(q[2])}</span><a href="${yt(q[3],q[4])}" target="_blank" rel="noopener">Escuchalo (${q[4]})</a>`;
+   D.querySelectorAll("button").forEach((b,n)=>b.setAttribute("aria-selected",String(n===k)))};
+ const go=k=>{if(red){put(k);return}box.classList.add("out");setTimeout(()=>{put(k);box.classList.remove("out")},350)};
+ const loop=()=>{clearInterval(tm);if(!red)tm=setInterval(()=>{if(!paused&&!document.hidden)go((i+1)%Q.length)},5500)};
+ D.addEventListener("click",e=>{const b=e.target.closest("button");if(b){go(+b.dataset.i);loop()}});
+ box.addEventListener("mouseenter",()=>paused=true);box.addEventListener("mouseleave",()=>paused=false);
+ box.addEventListener("focusin",()=>paused=true);box.addEventListener("focusout",()=>paused=false);
+ put(0);loop();})();
 (function(){const A=document.getElementById("vsa"),B=document.getElementById("vsb"),O=document.getElementById("vsout");if(!A)return;
   const opt=LG.map(x=>`<option value="${x.k}">${esc(C[x.c][1]+" "+x.n)}</option>`).join("");A.innerHTML=opt;B.innerHTML=opt;A.value="es";B.value="fed1";
   const card=x=>{const cat=CATS[x.cat]||["","",""];return `<div class="vsc"><h4>${esc(x.n)}</h4><div class="vp">${esc(C[x.c][1]+" "+C[x.c][0])}</div><dl>
