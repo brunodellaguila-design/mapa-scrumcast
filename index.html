@@ -753,12 +753,28 @@ footer .links a{color:inherit}
 .blk h3{text-transform:none!important;letter-spacing:0!important}
 .hero p.sub{max-width:30em}
 @media (max-width:980px){.lgrow{grid-template-areas:"nm" "ln" "ic"!important;grid-template-columns:minmax(0,1fr)!important}.lgrow .ic{justify-content:flex-start!important;align-self:auto!important}}
+
+/* mejoras celu y header (25/11) */
+.top .wrap{display:flex;align-items:center;gap:20px}
+.top .nav{margin-left:auto}
+.hcta{flex:none;background:var(--yellow);color:var(--navy);font:800 14px var(--body);padding:9px 16px;border-radius:999px;text-decoration:none;white-space:nowrap}
+.hcta:hover{background:var(--cream)}
+.hcta:focus-visible{outline:3px solid var(--cream);outline-offset:2px}
+@media (max-width:980px){.hcta{margin-left:auto}.hcta .hl{display:none}}
+.strip button{width:190px;aspect-ratio:4/3;border-radius:6px}
+.strip span{padding:28px 10px 8px;font-size:12px;font-weight:600;color:var(--muted)}
+.strip span b{display:block;font:400 18px/1.05 var(--display);text-transform:uppercase;color:var(--cream);margin-bottom:2px}
+@media (max-width:600px){.strip button{width:150px}.strip span b{font-size:16px}
+ .ticks#lgticks span:nth-child(2){display:none}}
+.totop{width:42px;height:42px;background:var(--navy);color:var(--yellow);border:2px solid var(--yellow);box-shadow:0 4px 14px color-mix(in srgb,var(--deep) 70%,transparent);font-size:18px}
+.totop:hover{background:var(--yellow);color:var(--navy)}
 @media (max-width:980px){.hero .side{order:0!important;flex-direction:column!important}}
 </style>
 
 <header class="top"><div class="wrap">
   <a class="brand" href="#inicio"><img src="img/logo.png" alt="Logo de ScrumCast"><span>SCRUMCAST</span> <b>| EL LADO B DEL RUGBY</b></a>
   <nav class="nav" aria-label="Secciones"><a href="#mapa">Mapa</a><a href="#liga-por-liga">Sueldos</a><a href="#guia">Antes de irte</a><a href="#preguntas">Preguntas</a><a href="#charlas">Charlas</a><a href="#suma">Sumá tu liga</a></nav>
+  <a class="hcta" href="https://open.spotify.com/show/2RqDUNEPf3DBLBzF7ElSzZ" target="_blank" rel="noopener">Escuchá<span class="hl"> el podcast</span></a>
 </div></header>
 
 <section class="hero" id="inicio">
@@ -1108,7 +1124,8 @@ const TRK=(()=>{const U="https://obwjbcxexxnlppxsnetp.supabase.co/rest/v1/scrumc
   return (t,v)=>{if(!on)return;v=String(v||"").slice(0,80);const k=t+"|"+v;if(seen[k]&&Date.now()-seen[k]<5000)return;seen[k]=Date.now();
     try{fetch(U,{method:"POST",keepalive:true,headers:{"apikey":K,"Authorization":"Bearer "+K,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify({tipo:t,valor:v})}).catch(()=>{})}catch(e){}}})();
 document.addEventListener("click",ev=>{const a=ev.target.closest("a[href]");if(!a)return;const h=a.href;
-  if(/youtu|spotify\.com\/episode/.test(h)){const e=EP.find(x=>h.includes(x.id)||(x.s&&h.includes(x.s)));const t=(h.match(/[?&]t=(\d+)/)||[])[1];TRK("escuchar",(e?e.n:"episodio")+(t?" @"+Math.floor(t/60)+":"+String(t%60).padStart(2,"0"):""))}
+  if(/spotify\.com\/show/.test(h))TRK("escuchar","podcast (botón de arriba)");
+  else if(/youtu|spotify\.com\/episode/.test(h)){const e=EP.find(x=>h.includes(x.id)||(x.s&&h.includes(x.s)));const t=(h.match(/[?&]t=(\d+)/)||[])[1];TRK("escuchar",(e?e.n:"episodio")+(t?" @"+Math.floor(t/60)+":"+String(t%60).padStart(2,"0"):""))}
   else if(/wa\.me/.test(h))TRK("whatsapp",a.dataset.c||"")
   else if(/ig\.me|instagram\.com/.test(h))TRK("instagram",a.closest("section")?.id||"")},true);
 const slug=c=>C[c][0].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z]+/g,"-").replace(/^-|-$/g,"");
@@ -1119,7 +1136,7 @@ const go=c=>{show(c);if(window._map)focusOn(c);document.getElementById("mapa").s
 // mosaico
 const strip=document.getElementById("strip");
 const mos=EP.filter(e=>TH[e.id||e.s]).sort((a,b)=>b.d.localeCompare(a.d));
-strip.innerHTML=[...mos,...mos].map((e,i)=>`<button type="button" data-c="${e.p}" ${i>=mos.length?'aria-hidden="true" tabindex="-1"':""}><img src="${TH[e.id||e.s]}" alt="" loading="lazy" decoding="async"><span>${C[e.p][1]} ${esc(e.n)}</span></button>`).join("");
+strip.innerHTML=[...mos,...mos].map((e,i)=>`<button type="button" data-c="${e.p}" ${i>=mos.length?'aria-hidden="true" tabindex="-1"':""}><img src="${TH[e.id||e.s]}" alt="" loading="lazy" decoding="async"><span><b>${esc(e.n)}</b>${C[e.p][1]} ${C[e.p][0]}</span></button>`).join("");
 strip.addEventListener("click",ev=>{const b=ev.target.closest("button");if(b)go(b.dataset.c)});
 
 // ficha del país
