@@ -1,6 +1,36 @@
 {
   "cleanUrls": true,
   "redirects": [
-    { "source": "/(.*)", "has": [{ "type": "host", "value": "mapa-scrumcast.vercel.app" }], "destination": "https://scrumcast.vercel.app/$1", "permanent": true }
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "mapa-scrumcast.vercel.app"
+        }
+      ],
+      "destination": "https://scrumcast.vercel.app/$1",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    }
   ]
 }
